@@ -60,6 +60,12 @@ return (
         {message && (
           <p className="mt-4 text-green-400 text-sm">{message}</p>
         )}
+
+        <div className="mt-6 p-4 rounded-xl bg-indigo-950/40 border border-indigo-900/50 text-xs text-gray-400">
+          <p className="font-semibold text-white mb-1">⚡ Quick Demo Access:</p>
+          <p>Email: <code className="text-indigo-300">jack01@gmail.com</code></p>
+          <p>Password: <code className="text-indigo-300">123456</code></p>
+        </div>
       </div>
     </div>
   );

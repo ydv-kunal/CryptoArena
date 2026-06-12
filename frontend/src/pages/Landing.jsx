@@ -604,9 +604,13 @@ export default function Landing() {
               Learn, practice, and perfect your trading strategies in a risk-free environment. Real-time market data, zero financial risk.
             </motion.p>
 
+            {/* <motion.div */}
+            {/*   initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} */}
+            {/*   style={{ display: "flex", flexWrap: "wrap", gap: 16, marginBottom: 32 }} */}
+            {/* > */}
             <motion.div
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}
-              style={{ display: "flex", flexWrap: "wrap", gap: 16, marginBottom: 32 }}
+              style={{ display: "flex", flexWrap: "wrap", gap: 16, marginBottom: 16 }}
             >
               <button
                 onClick={() => navigate("/dashboard")}
@@ -614,6 +618,20 @@ export default function Landing() {
               >
                 Start Trading Free <IconArrowRight />
               </button>
+            </motion.div>
+
+            {/* Quick Demo Credentials Box */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.35 }}
+              style={{ padding: "12px 18px", borderRadius: 16, border: "1px solid rgba(129,140,248,0.15)", background: "rgba(129,140,248,0.05)", display: "inline-block", marginBottom: 32, backdropFilter: "blur(8px)" }}
+            >
+              <p style={{ margin: 0, fontSize: 13, color: "rgba(255,255,255,0.7)", fontWeight: 500 }} className="flex items-center gap-2">
+                <span style={{ color: "#34d399" }}>⚡</span> <strong>Quick Demo Access:</strong>
+              </p>
+              <div style={{ marginTop: 6, display: "flex", gap: 16, fontSize: 12, color: "rgba(255,255,255,0.5)", fontFamily: "monospace" }}>
+                <span>Email: <strong style={{ color: "#fff" }}>jack01@gmail.com</strong></span>
+                <span>Pass: <strong style={{ color: "#fff" }}>123456</strong></span>
+              </div>
             </motion.div>
 
             <motion.div
