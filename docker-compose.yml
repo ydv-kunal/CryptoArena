@@ -1,0 +1,85 @@
+services:
+  # Service 1: MongoDB Database container
+  # We pull the official mongo:6.0 image, expose it on port 27017, and configure a volume
+  # to save database data persistently on our host computer.
+  mongodb:
+    image: mongo:6.0
+    container_name: paper-trading-db
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  # Service 2: Authentication service container
+  # It builds from the Dockerfile inside ./auth-service folder, depends on mongodb,
+  # and defines backend config properties like MONGO_URI and JWT_SECRET.
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    container_name: paper-trading-auth
+    restart: always
+    environment:
+      - PORT=5101
+      - MONGO_URI=mongodb://mongodb:27017/paper-trading
+      - JWT_SECRET=supersecretkey
+      - TRADING_SERVICE_URL=http://trading-service:5102
+    depends_on:
+      - mongodb
+
+  # Service 3: Trading service container
+  # It builds from the ./trading-service Dockerfile, depends on mongodb, and exposes
+  # port 5102 to the host to accept WebSocket feed connections from the browser.
+  trading-service:
+    build:
+      context: ./trading-service
+      dockerfile: Dockerfile
+    container_name: paper-trading-trading
+    restart: always
+    ports:
+      - "5102:5102"
+    environment:
+      - PORT=5102
+      - MONGO_URI=mongodb://mongodb:27017/paper-trading
+      - JWT_SECRET=supersecretkey
+    depends_on:
+      - mongodb
+
+  # Service 4: API Gateway container
+  # It serves as the single entry point. It directs incoming traffic to auth-service or trading-service.
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    container_name: paper-trading-gateway
+    restart: always
+    ports:
+      - "5100:5100"
+    environment:
+      - PORT=5100
+      - AUTH_SERVICE_URL=http://auth-service:5101
+      - TRADING_SERVICE_URL=http://trading-service:5102
+    depends_on:
+      - auth-service
+      - trading-service
+
+  # Service 5: Frontend container running the Vite dev server.
+  # We pass the VITE_API_URL and VITE_WS_URL environment variables at build time.
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=http://localhost:5100
+        - VITE_WS_URL=ws://localhost:5102
+    container_name: paper-trading-frontend
+    restart: always
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api-gateway
+
+volumes:
+  mongo-data:
+    driver: local
