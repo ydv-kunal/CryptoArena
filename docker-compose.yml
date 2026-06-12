@@ -84,13 +84,6 @@ volumes:
   mongo-data:
     driver: local
 
-
-
-
-
-
-
-
 # Build and run the app in the background
 # docker compose up --build -d
 
