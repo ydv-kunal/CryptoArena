@@ -83,3 +83,19 @@ services:
 volumes:
   mongo-data:
     driver: local
+
+
+
+
+
+
+
+
+# Build and run the app in the background
+# docker compose up --build -d
+
+# Check running container statuses (should list 5 containers)
+# docker compose ps
+
+# View live container logs
+# docker compose logs -f
