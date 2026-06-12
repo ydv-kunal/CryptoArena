@@ -601,7 +601,7 @@ export default function Landing() {
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.2 }}
               style={{ color: "rgba(255,255,255,0.45)", fontSize: 18, lineHeight: 1.7, marginBottom: 32, maxWidth: 480 }}
             >
-              Learn, practice, and perfect your trading strategies in a risk-free environment. Real-time market data, zero financial risk.
+              Lea, practice, and perfect your trading strategies in a risk-free environment. Real-time market data, zero financial risk.
             </motion.p>
 
             {/* <motion.div */}
