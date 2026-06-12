@@ -249,13 +249,28 @@ const IconSparkle = () => (
 );
 
 // ─── Features data ─────────────────────────────────────────────────────────────
+// const FEATURES = [
+//   { Icon: IconBarChart, gradient: "linear-gradient(135deg,#3b82f6,#06b6d4)", title: "Real-Time Market Data", desc: "Access live cryptocurrency prices and charts from major exchanges. Trade with real market conditions." },
+//   { Icon: IconShield, gradient: "linear-gradient(135deg,#a855f7,#ec4899)", title: "100% Risk-Free", desc: "Practice with virtual money. Make mistakes, learn strategies, and build confidence without losing real capital." },
+//   { Icon: IconZap, gradient: "linear-gradient(135deg,#f97316,#ef4444)", title: "Instant Execution", desc: "Lightning-fast order execution that mirrors real trading platforms. Experience realistic trading conditions." },
+//   { Icon: IconBell, gradient: "linear-gradient(135deg,#10b981,#14b8a6)", title: "Smart Alerts", desc: "Set custom price alerts and get notified when your target prices are hit. Never miss an opportunity." },
+//   { Icon: IconLineChart, gradient: "linear-gradient(135deg,#6366f1,#2563eb)", title: "Advanced Analytics", desc: "Track your performance with detailed analytics. Understand your strengths and areas for improvement." },
+//   { Icon: IconUsers, gradient: "linear-gradient(135deg,#eab308,#f97316)", title: "Community Leaderboard", desc: "Compete with other traders on our global leaderboard. Learn from top performers and share strategies." },
+// ];
+
+const IconStack = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+  </svg>
+);
+
 const FEATURES = [
   { Icon: IconBarChart, gradient: "linear-gradient(135deg,#3b82f6,#06b6d4)", title: "Real-Time Market Data", desc: "Access live cryptocurrency prices and charts from major exchanges. Trade with real market conditions." },
   { Icon: IconShield, gradient: "linear-gradient(135deg,#a855f7,#ec4899)", title: "100% Risk-Free", desc: "Practice with virtual money. Make mistakes, learn strategies, and build confidence without losing real capital." },
   { Icon: IconZap, gradient: "linear-gradient(135deg,#f97316,#ef4444)", title: "Instant Execution", desc: "Lightning-fast order execution that mirrors real trading platforms. Experience realistic trading conditions." },
-  { Icon: IconBell, gradient: "linear-gradient(135deg,#10b981,#14b8a6)", title: "Smart Alerts", desc: "Set custom price alerts and get notified when your target prices are hit. Never miss an opportunity." },
+  { Icon: IconStepChart, gradient: "linear-gradient(135deg,#10b981,#14b8a6)", title: "Interactive Charts", desc: "Visualize price movements with embedded TradingView candlestick charts. Analyze trends across multiple timeframes." },
   { Icon: IconLineChart, gradient: "linear-gradient(135deg,#6366f1,#2563eb)", title: "Advanced Analytics", desc: "Track your performance with detailed analytics. Understand your strengths and areas for improvement." },
-  { Icon: IconUsers, gradient: "linear-gradient(135deg,#eab308,#f97316)", title: "Community Leaderboard", desc: "Compete with other traders on our global leaderboard. Learn from top performers and share strategies." },
+  { Icon: IconStack, gradient: "linear-gradient(135deg,#eab308,#f97316)", title: "Live Order Book", desc: "Study real-time simulated order matching queues. Track bids, asks, and spreads to understand order matching mechanics." },
 ];
 
 const STEPS = [
@@ -505,10 +520,10 @@ export default function Landing() {
               <span
                 key={label}
                 style={{ cursor: "pointer", transition: "color 0.2s", color: "rgba(255,255,255,0.45)" }}
-                //                 onClick={() => {
-                //                   if (id === "__dashboard__") { navigate("/dashboard"); return; }
-                //                   if (id) document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-                //                 }}
+//                 onClick={() => {
+//                   if (id === "__dashboard__") { navigate("/dashboard"); return; }
+//                   if (id) document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+//                 }}
                 onClick={() => {
                   if (id === "__dashboard__") { navigate("/dashboard"); return; }
                   if (label === "About Us") { navigate("/about"); return; }
@@ -599,16 +614,19 @@ export default function Landing() {
 
             <motion.p
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.2 }}
-              style={{ color: "rgba(255,255,255,0.45)", fontSize: 18, lineHeight: 1.7, marginBottom: 32, maxWidth: 480 }}
-            >
-              Learn, practice, and perfect your trading strategies in a risk-free environment. Real-time market data, zero financial risk.
-            </motion.p>
+//               style={{ color: "rgba(255,255,255,0.45)", fontSize: 18, lineHeight: 1.7, marginBottom: 32, maxWidth: 480 }}
+//             >
+//               Lea, practice, and perfect your trading strategies in a risk-free environment. Real-time market data, zero financial risk.
+//             </motion.p>
+            style={{ color: "rgba(255,255,255,0.45)", fontSize: 18, lineHeight: 1.7, marginBottom: 32, maxWidth: 480 }}
+          >
+            Learn, practice, and perfect your trading strategies in a risk-free environment. Real-time market data, zero financial risk.
+          </motion.p>
 
-            {/* // <motion.div
-            //   initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}
-            //   style={{ display: "flex", flexWrap: "wrap", gap: 16, marginBottom: 32 }}
-            // > */}
-
+            {/* <motion.div */}
+            {/*   initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} */}
+            {/*   style={{ display: "flex", flexWrap: "wrap", gap: 16, marginBottom: 32 }} */}
+            {/* > */}
             <motion.div
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}
               style={{ display: "flex", flexWrap: "wrap", gap: 16, marginBottom: 16 }}
@@ -621,19 +639,19 @@ export default function Landing() {
               </button>
             </motion.div>
 
-            {/* Quick Demo Credentials Box */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.35 }}
-              style={{ padding: "12px 18px", borderRadius: 16, border: "1px solid rgba(129,140,248,0.15)", background: "rgba(129,140,248,0.05)", display: "inline-block", marginBottom: 32, backdropFilter: "blur(8px)" }}
-            >
-              <p style={{ margin: 0, fontSize: 13, color: "rgba(255,255,255,0.7)", fontWeight: 500 }} className="flex items-center gap-2">
-                <span style={{ color: "#34d399" }}>⚡</span> <strong>Quick Demo Access:</strong>
-              </p>
-              <div style={{ marginTop: 6, display: "flex", gap: 16, fontSize: 12, color: "rgba(255,255,255,0.5)", fontFamily: "monospace" }}>
-                <span>Email: <strong style={{ color: "#fff" }}>jack01@gmail.com</strong></span>
-                <span>Pass: <strong style={{ color: "#fff" }}>123456</strong></span>
-              </div>
-            </motion.div>
+            {/* Quick Demo Credentials Box (Commented out & moved to right column) */}
+            {/* <motion.div */}
+            {/*   initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.35 }} */}
+            {/*   style={{ padding: "12px 18px", borderRadius: 16, border: "1px solid rgba(129,140,248,0.15)", background: "rgba(129,140,248,0.05)", display: "inline-block", marginBottom: 32, backdropFilter: "blur(8px)" }} */}
+            {/* > */}
+            {/*   <p style={{ margin: 0, fontSize: 13, color: "rgba(255,255,255,0.7)", fontWeight: 500 }} className="flex items-center gap-2"> */}
+            {/*     <span style={{ color: "#34d399" }}>⚡</span> <strong>Quick Demo Access:</strong> */}
+            {/*   </p> */}
+            {/*   <div style={{ marginTop: 6, display: "flex", gap: 16, fontSize: 12, color: "rgba(255,255,255,0.5)", fontFamily: "monospace" }}> */}
+            {/*     <span>Email: <strong style={{ color: "#fff" }}>jack01@gmail.com</strong></span> */}
+            {/*     <span>Pass: <strong style={{ color: "#fff" }}>123456</strong></span> */}
+            {/*   </div> */}
+            {/* </motion.div> */}
 
             <motion.div
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
@@ -704,6 +722,19 @@ export default function Landing() {
                 </linearGradient>
               </defs>
             </motion.svg>
+            {/* Quick Demo Credentials Box (Moved from left column to float in illustration collage) */}
+            <motion.div
+              animate={{ y: [0, -6, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+              style={{ position: "absolute", bottom: -12, left: 16, zIndex: 35, padding: "10px 16px", borderRadius: 14, background: "rgba(10,10,25,0.9)", border: "1px solid rgba(129,140,248,0.25)", backdropFilter: "blur(12px)", boxShadow: "0 10px 30px rgba(0,0,0,0.5)" }}
+            >
+              <p style={{ margin: 0, fontSize: 11, color: "#818cf8", fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase" }} className="flex items-center gap-1.5">
+                <span style={{ color: "#34d399" }}>⚡</span> Demo Account
+              </p>
+              <div style={{ marginTop: 4, display: "flex", flexDirection: "column", gap: 2, fontSize: 11, color: "rgba(255,255,255,0.6)", fontFamily: "monospace" }}>
+                <span>Email: <strong style={{ color: "#fff" }}>jack01@gmail.com</strong></span>
+                <span>Pass: <strong style={{ color: "#fff" }}>123456</strong></span>
+              </div>
+            </motion.div>
           </motion.div>
         </div>
       </section>
