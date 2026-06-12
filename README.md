@@ -7,22 +7,22 @@ CryptoArena is a premium, real-time cryptocurrency paper trading simulator built
 ## 📸 Screenshots
 *(Screenshots to show off the beautiful dark-glassmorphic UI!)*
 
-1. Landing Portal 
-<img width="1440" height="812" alt="Screenshot 2026-06-12 at 10 26 47 PM" src="https://github.com/user-attachments/assets/21d753bd-c257-4630-aa95-c6aed19bc26f" /> <br> <br>
+1. Landing Portal <br>
+<img width="1440" height="810" alt="Screenshot 2026-06-13 at 1 47 24 AM" src="https://github.com/user-attachments/assets/11ef91c4-2a1c-4271-9f29-d0389679ef47" /> <br> <br>
 
-2. Trading Desk
+2. Trading Desk <br>
 <img width="1440" height="812" alt="Screenshot 2026-06-12 at 10 30 03 PM" src="https://github.com/user-attachments/assets/449ad1a0-0c51-4003-b4b2-2327b3fdaad5" /> <br> <br>
 
-3. Interactive Charting
+3. Interactive Charting <br>
 <img width="1440" height="811" alt="Screenshot 2026-06-12 at 10 28 47 PM" src="https://github.com/user-attachments/assets/3b89baba-f948-4f9b-a107-d97d4be8553c" /> <br> <br>
 
-4. Live Order Book
+4. Live Order Book <br>
 <img width="1440" height="812" alt="Screenshot 2026-06-12 at 10 30 15 PM" src="https://github.com/user-attachments/assets/dc2dd5ed-5b84-43ac-9c84-f486a3a5c22d" /> <br> <br>
 
-5. Portfolio Dashboard
+5. Portfolio Dashboard <br>
 <img width="1440" height="812" alt="Screenshot 2026-06-12 at 10 31 58 PM" src="https://github.com/user-attachments/assets/383d9ba4-d602-422f-9686-49afc99fd464" /> <br> <br>
 
-6. Transaction History
+6. Transaction History<br>
 <img width="1440" height="813" alt="Screenshot 2026-06-12 at 10 32 15 PM" src="https://github.com/user-attachments/assets/0f9aac53-2800-45df-9807-0e2935376038" /> <br> <br>
 
 ---
