@@ -17,11 +17,11 @@ CryptoArena is a premium, real-time cryptocurrency paper trading simulator built
 
 3. Interactive Charting
 <br>
-<img width="1440" height="811" alt="Screenshot 2026-06-12 at 10 28 47 PM" src="https://github.com/user-attachments/assets/3b89baba-f948-4f9b-a107-d97d4be8553c" /> <br> <br>
+<img width="1440" height="810" alt="Screenshot 2026-06-14 at 4 37 42 AM" src="https://github.com/user-attachments/assets/a0812836-5794-472e-99ec-771d8a90a413" /> <br> <br>
 
 4. Live Order Book
 <br>
-<img width="1440" height="812" alt="Screenshot 2026-06-12 at 10 30 15 PM" src="https://github.com/user-attachments/assets/dc2dd5ed-5b84-43ac-9c84-f486a3a5c22d" /> <br> <br>
+<img width="1440" height="811" alt="Screenshot 2026-06-14 at 4 38 33 AM" src="https://github.com/user-attachments/assets/bdb34b9d-fc2c-4d39-965e-f1509b9c82fe" /> <br> <br>
 
 5. Portfolio Dashboard
 <br>
@@ -29,7 +29,7 @@ CryptoArena is a premium, real-time cryptocurrency paper trading simulator built
 
 6. Transaction History
 <br>
-<img width="1440" height="813" alt="Screenshot 2026-06-12 at 10 32 15 PM" src="https://github.com/user-attachments/assets/0f9aac53-2800-45df-9807-0e2935376038" /> <br> <br>
+<img width="1440" height="809" alt="Screenshot 2026-06-14 at 4 39 32 AM" src="https://github.com/user-attachments/assets/8299430a-ac6a-425f-84b9-f76c10ea1165" /> <br> <br>
 
 ---
 
