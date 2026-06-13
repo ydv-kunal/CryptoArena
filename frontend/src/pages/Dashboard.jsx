@@ -213,7 +213,8 @@ export default function Dashboard() {
 
                 {/* Portfolio Stats/Metrics Cards Grid */}
                 <div className="w-full">
-                    <TopCards balance={balance} assestsCount={assestsCount} />
+                    {/* <TopCards balance={balance} assestsCount={assestsCount} /> */}
+                    <TopCards balance={balance} assestsCount={assestsCount} portfolio={portfolio} />
                 </div>
 
                 {/* Analytics Graphs (Pie & Bar Charts) */}

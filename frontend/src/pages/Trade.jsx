@@ -509,7 +509,9 @@ export default function Trade() {
 
             {/* Metrics cards row */}
             <div className="w-full">
-              <TopCards balance={balance} assestsCount={assestsCount} />
+              {/* <TopCards balance={balance} assestsCount={assestsCount} /> */}
+              {/* <TopCards balance={balance} assestsCount={assestsCount} portfolio={portfolio} /> */}
+              <TopCards balance={balance} assestsCount={assestsCount} portfolio={portfolio} gridColsClass="grid-cols-1 sm:grid-cols-2 2xl:grid-cols-4" />
             </div>
 
           </div>
