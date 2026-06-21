@@ -632,7 +632,7 @@ export default function Landing() {
               style={{ display: "flex", flexWrap: "wrap", gap: 16, marginBottom: 16 }}
             >
               <button
-                onClick={() => navigate("/dashboard")}
+                onClick={() => navigate(token ? "/dashboard" : "/signup")}
                 style={{ display: "flex", alignItems: "center", gap: 8, background: "linear-gradient(135deg,#4f46e5,#7c3aed)", border: "none", color: "white", fontSize: 16, fontWeight: 700, padding: "14px 28px", borderRadius: 14, cursor: "pointer" }}
               >
                 Start Trading Free <IconArrowRight />
@@ -820,7 +820,7 @@ export default function Landing() {
               Create your free account today and get $100,000 in virtual funds to practice trading. No credit card required.
             </p>
             <button
-              onClick={() => navigate("/signup")}
+              onClick={() => navigate(token ? "/dashboard" : "/signup")}
               style={{ display: "inline-flex", alignItems: "center", gap: 12, background: "linear-gradient(135deg,#4f46e5,#7c3aed)", border: "none", color: "white", fontSize: 18, fontWeight: 700, padding: "16px 40px", borderRadius: 18, cursor: "pointer", marginBottom: 24 }}
             >
               Get Started Free <IconArrowRight />
