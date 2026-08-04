@@ -592,8 +592,8 @@ export default function Landing() {
       <div style={{ height: 112 }} />
 
       {/* ── Hero ── */}
-      <section style={{ position: "relative", zIndex: 1, padding: "64px 24px", maxWidth: 1280, margin: "0 auto" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center" }} className="hero-grid">
+      <section style={{ position: "relative", zIndex: 1, padding: "48px 24px 64px", maxWidth: 1280, margin: "0 auto", minHeight: "calc(100vh - 112px)", display: "flex", alignItems: "center" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center", width: "100%" }} className="hero-grid">
           {/* Left */}
           <div>
             <motion.div
