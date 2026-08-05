@@ -476,19 +476,19 @@ export default function Landing() {
   // Lifted prices state for landing page illustration and ticker sync
   const [prices, setPrices] = useState({});
 
-  useEffect(() => {
-    // const socket = new WebSocket("ws://3.108.215.35:5102");
-    const wsUrl = import.meta.env.VITE_WS_URL || "ws://3.108.215.35:5102";
-    const socket = new WebSocket(wsUrl);
-    socket.onmessage = (event) => {
-      try {
-        setPrices(JSON.parse(event.data));
-      } catch (err) {
-        console.error("Error parsing socket data in landing page main state:", err);
-      }
-    };
-    return () => socket.close();
-  }, []);
+  // useEffect(() => {
+  //   // const socket = new WebSocket("ws://3.108.215.35:5102");
+  //   const wsUrl = import.meta.env.VITE_WS_URL || "ws://3.108.215.35:5102";
+  //   const socket = new WebSocket(wsUrl);
+  //   socket.onmessage = (event) => {
+  //     try {
+  //       setPrices(JSON.parse(event.data));
+  //     } catch (err) {
+  //       console.error("Error parsing socket data in landing page main state:", err);
+  //     }
+  //   };
+  //   return () => socket.close();
+  // }, []);
 
   return (
     <div style={{ background: "#0a0a0f", fontFamily: "'DM Sans','Segoe UI',sans-serif", color: "white", minHeight: "100vh" }}>
@@ -520,10 +520,10 @@ export default function Landing() {
               <span
                 key={label}
                 style={{ cursor: "pointer", transition: "color 0.2s", color: "rgba(255,255,255,0.45)" }}
-//                 onClick={() => {
-//                   if (id === "__dashboard__") { navigate("/dashboard"); return; }
-//                   if (id) document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-//                 }}
+                //                 onClick={() => {
+                //                   if (id === "__dashboard__") { navigate("/dashboard"); return; }
+                //                   if (id) document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+                //                 }}
                 onClick={() => {
                   if (id === "__dashboard__") { navigate("/dashboard"); return; }
                   if (label === "About Us") { navigate("/about"); return; }
@@ -614,14 +614,14 @@ export default function Landing() {
 
             <motion.p
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.2 }}
-//               style={{ color: "rgba(255,255,255,0.45)", fontSize: 18, lineHeight: 1.7, marginBottom: 32, maxWidth: 480 }}
-//             >
-//               Lea, practice, and perfect your trading strategies in a risk-free environment. Real-time market data, zero financial risk.
-//             </motion.p>
-            style={{ color: "rgba(255,255,255,0.45)", fontSize: 18, lineHeight: 1.7, marginBottom: 32, maxWidth: 480 }}
-          >
-            Learn, practice, and perfect your trading strategies in a risk-free environment. Real-time market data, zero financial risk.
-          </motion.p>
+              //               style={{ color: "rgba(255,255,255,0.45)", fontSize: 18, lineHeight: 1.7, marginBottom: 32, maxWidth: 480 }}
+              //             >
+              //               Lea, practice, and perfect your trading strategies in a risk-free environment. Real-time market data, zero financial risk.
+              //             </motion.p>
+              style={{ color: "rgba(255,255,255,0.45)", fontSize: 18, lineHeight: 1.7, marginBottom: 32, maxWidth: 480 }}
+            >
+              Learn, practice, and perfect your trading strategies in a risk-free environment. Real-time market data, zero financial risk.
+            </motion.p>
 
             {/* <motion.div */}
             {/*   initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} */}

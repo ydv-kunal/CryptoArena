@@ -135,25 +135,25 @@ export default function Trade() {
   };
 
   // Live price feeds socket
-  useEffect(() => {
-    // const socket = new WebSocket("ws://3.108.215.35:5102");
-    const wsUrl = import.meta.env.VITE_WS_URL || "ws://3.108.215.35:5102";
-    const socket = new WebSocket(wsUrl);
-    socket.onmessage = (event) => {
-      const livePrices = JSON.parse(event.data);
-      setPrices(livePrices);
+  // useEffect(() => {
+  //   // const socket = new WebSocket("ws://3.108.215.35:5102");
+  //   const wsUrl = import.meta.env.VITE_WS_URL || "ws://3.108.215.35:5102";
+  //   const socket = new WebSocket(wsUrl);
+  //   socket.onmessage = (event) => {
+  //     const livePrices = JSON.parse(event.data);
+  //     setPrices(livePrices);
 
-      // Keep portfolio updated with current prices
-      setPortfolio((prev) =>
-        prev.map((asset) => {
-          const currentPrice = livePrices[asset.symbol] || asset.avgPrice;
-          const profit = (currentPrice - asset.avgPrice) * asset.quantity;
-          return { ...asset, currentPrice, profit };
-        })
-      );
-    };
-    return () => socket.close();
-  }, []);
+  //     // Keep portfolio updated with current prices
+  //     setPortfolio((prev) =>
+  //       prev.map((asset) => {
+  //         const currentPrice = livePrices[asset.symbol] || asset.avgPrice;
+  //         const profit = (currentPrice - asset.avgPrice) * asset.quantity;
+  //         return { ...asset, currentPrice, profit };
+  //       })
+  //     );
+  //   };
+  //   return () => socket.close();
+  // }, []);
 
   // Load portfolio stats on mount & selectedCoin changes
   useEffect(() => {
@@ -171,7 +171,7 @@ export default function Trade() {
   useEffect(() => {
     const generateOrderBook = () => {
       const base = prices[selectedCoin] || fallbackPrices[selectedCoin] || 100;
-      
+
       // Bids (Buy orders below current price, sorted high to low)
       const newBids = Array.from({ length: 5 }, (_, i) => {
         const factor = 1 - (i + 1) * 0.0006;
@@ -204,220 +204,220 @@ export default function Trade() {
     return () => clearInterval(interval);
   }, [selectedCoin, prices[selectedCoin]]);
 
-// ==========================================
-// ORIGINAL LAYOUT RENDER (COMMENTED OUT)
-// ==========================================
-//     return (
-//         <div className="flex bg-gradient-to-br from-[#020617] to-[#0f172a] text-white min-h-screen">
-//             {/* <Sidebar /> */}
-//             <Sidebar prices={prices} />
-//             
-//             <div className="flex-1 p-5 ml-60">
-//                 <div>
-//                     <h1 className="text-4xl font-bold mb-5 bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">
-//                         Trade
-//                     </h1>
-//                     <p className="text-gray-400 mb-1">Overview of your portfolio</p>
-//                 </div>
-// 
-//                 {/* Live Prices */}
-//                 <div className="bg-white/5 p-2 rounded-2xl backdrop-blur mb-2 mt-3">
-//                     <Ticker prices={prices} setPrices={setPrices} />
-//                 </div>
-// 
-//                 {/* Coin Selector */}
-//                 <div className="flex gap-3 mt-4">
-//                     {["BTC", "ETH", "DOGE", "SOL", "BNB", "LTC", "XRP"].map((coin) => (
-//                         <button
-//                             key={coin}
-//                             onClick={() => {
-//                                 setSelectedCoin(coin);
-//                                 localStorage.setItem("selectedCoin", coin);
-//                             }}
-//                             className={`px-4 py-1 rounded-lg text-sm transition ${selectedCoin === coin
-//                                 ? "bg-green-500 text-black"
-//                                 : "bg-white/10 text-gray-300 hover:bg-white/20"
-//                                 }`}
-//                         >
-//                             {coin}
-//                         </button>
-//                     ))}
-//                 </div>
-// 
-//                 {/* Chart */}
-//                 <Chart prices={prices} coin={selectedCoin} />
-// 
-//                 {/* Cards */}
-//                 <div className="mt-4">
-//                     <TopCards balance={balance} assestsCount={assestsCount} />
-//                 </div>
-// 
-//                 <div className="mt-0 bg-white/5 p-4 rounded-2xl backdrop-blur-xl max-w-md">
-//                     <h2 className="text-xl font-semibold mb-4">Trade {selectedCoin}</h2>
-// 
-//                     {/* Quantity Input */}
-//                     <input
-//                         type="number"
-//                         placeholder="Enter quantity"
-//                         value={quantity}
-//                         onChange={(e) => setQuantity(e.target.value)}
-//                         className="w-full p-3 rounded-lg bg-black/40 border border-white/10 mb-4"
-//                     />
-// 
-//                     {/* Buttons */}
-//                     <div className="flex gap-4">
-//                         <button
-//                             onClick={handleBuy}
-//                             className="flex-1 bg-green-500 text-black py-2 rounded-xl font-semibold"
-//                         >
-//                             Buy
-//                         </button>
-// 
-//                         <button
-//                             onClick={handleSell}
-//                             className="flex-1 bg-red-500 text-black py-2 rounded-xl font-semibold"
-//                         >
-//                             Sell
-//                         </button>
-//                     </div>
-// 
-//                     {/* Message */}
-//                     {message && (
-//                         <p className="mt-4 text-green-400 text-sm">{message}</p>
-//                     )}
-//                 </div>
-// 
-//             </div>
-//         </div>
-//     );
-// 
-// }
+  // ==========================================
+  // ORIGINAL LAYOUT RENDER (COMMENTED OUT)
+  // ==========================================
+  //     return (
+  //         <div className="flex bg-gradient-to-br from-[#020617] to-[#0f172a] text-white min-h-screen">
+  //             {/* <Sidebar /> */}
+  //             <Sidebar prices={prices} />
+  //             
+  //             <div className="flex-1 p-5 ml-60">
+  //                 <div>
+  //                     <h1 className="text-4xl font-bold mb-5 bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">
+  //                         Trade
+  //                     </h1>
+  //                     <p className="text-gray-400 mb-1">Overview of your portfolio</p>
+  //                 </div>
+  // 
+  //                 {/* Live Prices */}
+  //                 <div className="bg-white/5 p-2 rounded-2xl backdrop-blur mb-2 mt-3">
+  //                     <Ticker prices={prices} setPrices={setPrices} />
+  //                 </div>
+  // 
+  //                 {/* Coin Selector */}
+  //                 <div className="flex gap-3 mt-4">
+  //                     {["BTC", "ETH", "DOGE", "SOL", "BNB", "LTC", "XRP"].map((coin) => (
+  //                         <button
+  //                             key={coin}
+  //                             onClick={() => {
+  //                                 setSelectedCoin(coin);
+  //                                 localStorage.setItem("selectedCoin", coin);
+  //                             }}
+  //                             className={`px-4 py-1 rounded-lg text-sm transition ${selectedCoin === coin
+  //                                 ? "bg-green-500 text-black"
+  //                                 : "bg-white/10 text-gray-300 hover:bg-white/20"
+  //                                 }`}
+  //                         >
+  //                             {coin}
+  //                         </button>
+  //                     ))}
+  //                 </div>
+  // 
+  //                 {/* Chart */}
+  //                 <Chart prices={prices} coin={selectedCoin} />
+  // 
+  //                 {/* Cards */}
+  //                 <div className="mt-4">
+  //                     <TopCards balance={balance} assestsCount={assestsCount} />
+  //                 </div>
+  // 
+  //                 <div className="mt-0 bg-white/5 p-4 rounded-2xl backdrop-blur-xl max-w-md">
+  //                     <h2 className="text-xl font-semibold mb-4">Trade {selectedCoin}</h2>
+  // 
+  //                     {/* Quantity Input */}
+  //                     <input
+  //                         type="number"
+  //                         placeholder="Enter quantity"
+  //                         value={quantity}
+  //                         onChange={(e) => setQuantity(e.target.value)}
+  //                         className="w-full p-3 rounded-lg bg-black/40 border border-white/10 mb-4"
+  //                     />
+  // 
+  //                     {/* Buttons */}
+  //                     <div className="flex gap-4">
+  //                         <button
+  //                             onClick={handleBuy}
+  //                             className="flex-1 bg-green-500 text-black py-2 rounded-xl font-semibold"
+  //                         >
+  //                             Buy
+  //                         </button>
+  // 
+  //                         <button
+  //                             onClick={handleSell}
+  //                             className="flex-1 bg-red-500 text-black py-2 rounded-xl font-semibold"
+  //                         >
+  //                             Sell
+  //                         </button>
+  //                     </div>
+  // 
+  //                     {/* Message */}
+  //                     {message && (
+  //                         <p className="mt-4 text-green-400 text-sm">{message}</p>
+  //                     )}
+  //                 </div>
+  // 
+  //             </div>
+  //         </div>
+  //     );
+  // 
+  // }
 
-// ==========================================
-// ORIGINAL LAYOUT RENDER (COMMENTED OUT)
-// ==========================================
-//     return (
-//         <div 
-//             className="relative min-h-screen text-white overflow-x-hidden"
-//             style={{ 
-//                 background: "#0a0a0f", 
-//                 fontFamily: "'DM Sans','Segoe UI',sans-serif" 
-//             }}
-//         >
-//             {/* Background glow orbs matching landing page */}
-//             <div style={{ position: "fixed", inset: 0, pointerEvents: "none", overflow: "hidden", zIndex: 0 }}>
-//                 <div style={{ position: "absolute", width: 600, height: 600, top: -100, left: -200, borderRadius: "50%", background: "radial-gradient(circle,#4f46e5,transparent 70%)", filter: "blur(80px)", opacity: 0.15 }} />
-//                 <div style={{ position: "absolute", width: 500, height: 500, top: 200, right: -150, borderRadius: "50%", background: "radial-gradient(circle,#7c3aed,transparent 70%)", filter: "blur(80px)", opacity: 0.1 }} />
-//                 <div style={{ position: "absolute", width: 400, height: 400, bottom: 100, left: "30%", borderRadius: "50%", background: "radial-gradient(circle,#2563eb,transparent 70%)", filter: "blur(80px)", opacity: 0.08 }} />
-//             </div>
-// 
-//             {/* Sidebar */}
-//             <Sidebar prices={prices} />
-//             
-//             {/* Main content area (removed flex-1 and parent flex layout to fix overflow, added ml-64 matching sidebar) */}
-//             <div className="p-8 ml-64 z-10 animate-fadeIn flex flex-col gap-6 max-w-[1400px]">
-//                 {/* Header Block */}
-//                 <div className="flex flex-col gap-1 py-2">
-//                     <h1 className="text-4xl font-black tracking-tight text-white">
-//                         Trade{" "}
-//                         <span style={{ background: "linear-gradient(90deg,#818cf8,#c084fc)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-//                             Simulator
-//                         </span>
-//                     </h1>
-//                     <p className="text-xs text-white/35 font-bold tracking-widest uppercase">
-//                         Instant virtual buy and sell execution
-//                     </p>
-//                 </div>
-// 
-//                 {/* Live Prices */}
-//                 <div className="bg-white/[0.02] border border-white/5 p-2.5 rounded-2xl backdrop-blur-xl shadow-lg">
-//                     <Ticker prices={prices} setPrices={setPrices} />
-//                 </div>
-// 
-//                 {/* Coin Selector */}
-//                 <div className="flex flex-wrap gap-2.5 mt-2">
-//                     {["BTC", "ETH", "DOGE", "SOL", "BNB", "LTC", "XRP"].map((coin) => (
-//                         <button
-//                             key={coin}
-//                             onClick={() => {
-//                                 setSelectedCoin(coin);
-//                                 localStorage.setItem("selectedCoin", coin);
-//                             }}
-//                             className={`px-5 py-2.5 rounded-xl text-sm font-semibold tracking-tight transition-all duration-300 border ${
-//                                 selectedCoin === coin
-//                                     ? "bg-gradient-to-r from-indigo-500 to-purple-600 border-indigo-500 text-white shadow-[0_0_15px_rgba(99,102,241,0.25)]"
-//                                     : "bg-white/[0.02] border-white/5 text-gray-400 hover:bg-white/5 hover:text-white"
-//                             }`}
-//                         >
-//                             {coin}
-//                         </button>
-//                     ))}
-//                 </div>
-// 
-//                 {/* Chart Wrapper Card */}
-//                 <div className="bg-white/[0.02] border border-white/5 p-6 rounded-3xl backdrop-blur-xl shadow-lg mt-2">
-//                     <div className="flex items-center justify-between mb-4 px-2">
-//                         <span className="text-sm font-bold text-gray-300">
-//                             {selectedCoin} Market Chart (24h)
-//                         </span>
-//                         <span className="text-xs text-white/30 font-medium">
-//                             Powered by TradingView
-//                         </span>
-//                     </div>
-//                     <Chart prices={prices} coin={selectedCoin} />
-//                 </div>
-// 
-//                 {/* Metrics Cards */}
-//                 <div className="w-full mt-2">
-//                     <TopCards balance={balance} assestsCount={assestsCount} />
-//                 </div>
-// 
-//                 {/* Buy / Sell Order Desk Form */}
-//                 <div className="bg-white/[0.02] border border-white/5 p-6 rounded-3xl backdrop-blur-xl shadow-lg max-w-md mt-2">
-//                     <h2 className="text-lg font-bold text-white mb-4">Order Desk: {selectedCoin}</h2>
-// 
-//                     {/* Quantity Input */}
-//                     <div className="flex flex-col gap-2 mb-4">
-//                         <label className="text-xs text-gray-500 font-bold uppercase tracking-wider px-1">Order Quantity</label>
-//                         <input
-//                             type="number"
-//                             placeholder="Enter quantity to trade"
-//                             value={quantity}
-//                             onChange={(e) => setQuantity(e.target.value)}
-//                             className="w-full p-3.5 rounded-xl bg-black/40 border border-white/5 text-white font-semibold font-mono placeholder-gray-600 focus:outline-none focus:border-indigo-500/50 transition-colors duration-200"
-//                         />
-//                     </div>
-// 
-//                     {/* Buttons */}
-//                     <div className="flex gap-4">
-//                         <button
-//                             onClick={handleBuy}
-//                             className="flex-1 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 active:scale-[0.98] text-white py-3 rounded-xl font-bold transition-all duration-300 shadow-lg"
-//                         >
-//                             Buy Order
-//                         </button>
-// 
-//                         <button
-//                             onClick={handleSell}
-//                             className="flex-1 bg-gradient-to-r from-rose-500 to-red-600 hover:from-rose-400 hover:to-red-500 active:scale-[0.98] text-white py-3 rounded-xl font-bold transition-all duration-300 shadow-lg"
-//                         >
-//                             Sell Order
-//                         </button>
-//                     </div>
-// 
-//                     {/* Message Response */}
-//                     {message && (
-//                         <div className="mt-4 p-3 bg-white/[0.02] border border-white/5 rounded-xl text-center">
-//                             <p className="text-indigo-400 text-sm font-semibold">{message}</p>
-//                         </div>
-//                     )}
-//                 </div>
-// 
-//             </div>
-//         </div>
-//     );
-// 
-// }
+  // ==========================================
+  // ORIGINAL LAYOUT RENDER (COMMENTED OUT)
+  // ==========================================
+  //     return (
+  //         <div 
+  //             className="relative min-h-screen text-white overflow-x-hidden"
+  //             style={{ 
+  //                 background: "#0a0a0f", 
+  //                 fontFamily: "'DM Sans','Segoe UI',sans-serif" 
+  //             }}
+  //         >
+  //             {/* Background glow orbs matching landing page */}
+  //             <div style={{ position: "fixed", inset: 0, pointerEvents: "none", overflow: "hidden", zIndex: 0 }}>
+  //                 <div style={{ position: "absolute", width: 600, height: 600, top: -100, left: -200, borderRadius: "50%", background: "radial-gradient(circle,#4f46e5,transparent 70%)", filter: "blur(80px)", opacity: 0.15 }} />
+  //                 <div style={{ position: "absolute", width: 500, height: 500, top: 200, right: -150, borderRadius: "50%", background: "radial-gradient(circle,#7c3aed,transparent 70%)", filter: "blur(80px)", opacity: 0.1 }} />
+  //                 <div style={{ position: "absolute", width: 400, height: 400, bottom: 100, left: "30%", borderRadius: "50%", background: "radial-gradient(circle,#2563eb,transparent 70%)", filter: "blur(80px)", opacity: 0.08 }} />
+  //             </div>
+  // 
+  //             {/* Sidebar */}
+  //             <Sidebar prices={prices} />
+  //             
+  //             {/* Main content area (removed flex-1 and parent flex layout to fix overflow, added ml-64 matching sidebar) */}
+  //             <div className="p-8 ml-64 z-10 animate-fadeIn flex flex-col gap-6 max-w-[1400px]">
+  //                 {/* Header Block */}
+  //                 <div className="flex flex-col gap-1 py-2">
+  //                     <h1 className="text-4xl font-black tracking-tight text-white">
+  //                         Trade{" "}
+  //                         <span style={{ background: "linear-gradient(90deg,#818cf8,#c084fc)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+  //                             Simulator
+  //                         </span>
+  //                     </h1>
+  //                     <p className="text-xs text-white/35 font-bold tracking-widest uppercase">
+  //                         Instant virtual buy and sell execution
+  //                     </p>
+  //                 </div>
+  // 
+  //                 {/* Live Prices */}
+  //                 <div className="bg-white/[0.02] border border-white/5 p-2.5 rounded-2xl backdrop-blur-xl shadow-lg">
+  //                     <Ticker prices={prices} setPrices={setPrices} />
+  //                 </div>
+  // 
+  //                 {/* Coin Selector */}
+  //                 <div className="flex flex-wrap gap-2.5 mt-2">
+  //                     {["BTC", "ETH", "DOGE", "SOL", "BNB", "LTC", "XRP"].map((coin) => (
+  //                         <button
+  //                             key={coin}
+  //                             onClick={() => {
+  //                                 setSelectedCoin(coin);
+  //                                 localStorage.setItem("selectedCoin", coin);
+  //                             }}
+  //                             className={`px-5 py-2.5 rounded-xl text-sm font-semibold tracking-tight transition-all duration-300 border ${
+  //                                 selectedCoin === coin
+  //                                     ? "bg-gradient-to-r from-indigo-500 to-purple-600 border-indigo-500 text-white shadow-[0_0_15px_rgba(99,102,241,0.25)]"
+  //                                     : "bg-white/[0.02] border-white/5 text-gray-400 hover:bg-white/5 hover:text-white"
+  //                             }`}
+  //                         >
+  //                             {coin}
+  //                         </button>
+  //                     ))}
+  //                 </div>
+  // 
+  //                 {/* Chart Wrapper Card */}
+  //                 <div className="bg-white/[0.02] border border-white/5 p-6 rounded-3xl backdrop-blur-xl shadow-lg mt-2">
+  //                     <div className="flex items-center justify-between mb-4 px-2">
+  //                         <span className="text-sm font-bold text-gray-300">
+  //                             {selectedCoin} Market Chart (24h)
+  //                         </span>
+  //                         <span className="text-xs text-white/30 font-medium">
+  //                             Powered by TradingView
+  //                         </span>
+  //                     </div>
+  //                     <Chart prices={prices} coin={selectedCoin} />
+  //                 </div>
+  // 
+  //                 {/* Metrics Cards */}
+  //                 <div className="w-full mt-2">
+  //                     <TopCards balance={balance} assestsCount={assestsCount} />
+  //                 </div>
+  // 
+  //                 {/* Buy / Sell Order Desk Form */}
+  //                 <div className="bg-white/[0.02] border border-white/5 p-6 rounded-3xl backdrop-blur-xl shadow-lg max-w-md mt-2">
+  //                     <h2 className="text-lg font-bold text-white mb-4">Order Desk: {selectedCoin}</h2>
+  // 
+  //                     {/* Quantity Input */}
+  //                     <div className="flex flex-col gap-2 mb-4">
+  //                         <label className="text-xs text-gray-500 font-bold uppercase tracking-wider px-1">Order Quantity</label>
+  //                         <input
+  //                             type="number"
+  //                             placeholder="Enter quantity to trade"
+  //                             value={quantity}
+  //                             onChange={(e) => setQuantity(e.target.value)}
+  //                             className="w-full p-3.5 rounded-xl bg-black/40 border border-white/5 text-white font-semibold font-mono placeholder-gray-600 focus:outline-none focus:border-indigo-500/50 transition-colors duration-200"
+  //                         />
+  //                     </div>
+  // 
+  //                     {/* Buttons */}
+  //                     <div className="flex gap-4">
+  //                         <button
+  //                             onClick={handleBuy}
+  //                             className="flex-1 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 active:scale-[0.98] text-white py-3 rounded-xl font-bold transition-all duration-300 shadow-lg"
+  //                         >
+  //                             Buy Order
+  //                         </button>
+  // 
+  //                         <button
+  //                             onClick={handleSell}
+  //                             className="flex-1 bg-gradient-to-r from-rose-500 to-red-600 hover:from-rose-400 hover:to-red-500 active:scale-[0.98] text-white py-3 rounded-xl font-bold transition-all duration-300 shadow-lg"
+  //                         >
+  //                             Sell Order
+  //                         </button>
+  //                     </div>
+  // 
+  //                     {/* Message Response */}
+  //                     {message && (
+  //                         <div className="mt-4 p-3 bg-white/[0.02] border border-white/5 rounded-xl text-center">
+  //                             <p className="text-indigo-400 text-sm font-semibold">{message}</p>
+  //                         </div>
+  //                     )}
+  //                 </div>
+  // 
+  //             </div>
+  //         </div>
+  //     );
+  // 
+  // }
 
   // ─── NEW REVISED TRADE RENDER (FIXED OVERFLOW, GRID LAYOUT & LIVE ORDER BOOK) ───
   const currentAsset = portfolio.find((asset) => asset.symbol === selectedCoin);
@@ -426,11 +426,11 @@ export default function Trade() {
   const estimatedTotal = (Number(quantity) * currentPrice) || 0;
 
   return (
-    <div 
+    <div
       className="relative min-h-screen text-white overflow-x-hidden"
-      style={{ 
-        background: "#0a0a0f", 
-        fontFamily: "'DM Sans','Segoe UI',sans-serif" 
+      style={{
+        background: "#0a0a0f",
+        fontFamily: "'DM Sans','Segoe UI',sans-serif"
       }}
     >
       {/* Background glow orbs matching landing page */}
@@ -465,10 +465,10 @@ export default function Trade() {
 
         {/* Grid Workspace */}
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
-          
+
           {/* LEFT: Coin Selector, Chart, and TopCards */}
           <div className="xl:col-span-2 flex flex-col gap-6 w-full">
-            
+
             {/* Coin Selector Tab Bar */}
             <div className="flex flex-wrap gap-2">
               {["BTC", "ETH", "DOGE", "SOL", "BNB", "LTC", "XRP"].map((coin) => (
@@ -478,11 +478,10 @@ export default function Trade() {
                     setSelectedCoin(coin);
                     localStorage.setItem("selectedCoin", coin);
                   }}
-                  className={`px-5 py-2.5 rounded-xl text-sm font-semibold tracking-tight transition-all duration-300 border ${
-                    selectedCoin === coin
+                  className={`px-5 py-2.5 rounded-xl text-sm font-semibold tracking-tight transition-all duration-300 border ${selectedCoin === coin
                       ? "bg-gradient-to-r from-indigo-500 to-purple-600 border-indigo-500 text-white shadow-[0_0_15px_rgba(99,102,241,0.25)]"
                       : "bg-white/[0.02] border-white/5 text-gray-400 hover:bg-white/5 hover:text-white"
-                  }`}
+                    }`}
                 >
                   {coin}
                 </button>
@@ -518,28 +517,26 @@ export default function Trade() {
 
           {/* RIGHT: Order Desk Form & Simulated Order Book */}
           <div className="xl:col-span-1 flex flex-col gap-6 w-full xl:sticky xl:top-8">
-            
+
             {/* Buy / Sell Order Desk Form */}
             <div className="bg-white/[0.02] border border-white/5 rounded-3xl backdrop-blur-xl shadow-[0_20px_40px_rgba(0,0,0,0.3)] overflow-hidden">
               {/* Buy / Sell Tab Toggles */}
               <div className="flex border-b border-white/5">
                 <button
                   onClick={() => setTradeType("BUY")}
-                  className={`flex-1 py-4 text-center text-sm font-bold tracking-wider uppercase transition-all duration-300 ${
-                    tradeType === "BUY"
+                  className={`flex-1 py-4 text-center text-sm font-bold tracking-wider uppercase transition-all duration-300 ${tradeType === "BUY"
                       ? "bg-emerald-500/10 text-emerald-400 border-b-2 border-emerald-500"
                       : "text-gray-500 hover:text-white hover:bg-white/[0.01]"
-                  }`}
+                    }`}
                 >
                   Buy {selectedCoin}
                 </button>
                 <button
                   onClick={() => setTradeType("SELL")}
-                  className={`flex-1 py-4 text-center text-sm font-bold tracking-wider uppercase transition-all duration-300 ${
-                    tradeType === "SELL"
+                  className={`flex-1 py-4 text-center text-sm font-bold tracking-wider uppercase transition-all duration-300 ${tradeType === "SELL"
                       ? "bg-rose-500/10 text-rose-400 border-b-2 border-rose-500"
                       : "text-gray-500 hover:text-white hover:bg-white/[0.01]"
-                  }`}
+                    }`}
                 >
                   Sell {selectedCoin}
                 </button>
@@ -547,7 +544,7 @@ export default function Trade() {
 
               {/* Form Content */}
               <div className="p-6 flex flex-col gap-5">
-                
+
                 {/* Available Balance Details */}
                 <div className="flex items-center justify-between text-xs font-semibold px-1">
                   <span className="text-gray-500">Available Funds</span>
@@ -603,22 +600,20 @@ export default function Trade() {
                 {/* Primary Action Executer Button */}
                 <button
                   onClick={tradeType === "BUY" ? handleBuy : handleSell}
-                  className={`w-full py-3.5 rounded-xl font-bold transition-all duration-300 active:scale-[0.98] shadow-lg ${
-                    tradeType === "BUY"
+                  className={`w-full py-3.5 rounded-xl font-bold transition-all duration-300 active:scale-[0.98] shadow-lg ${tradeType === "BUY"
                       ? "bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white shadow-emerald-500/10"
                       : "bg-gradient-to-r from-rose-500 to-red-600 hover:from-rose-400 hover:to-red-500 text-white shadow-rose-500/10"
-                  }`}
+                    }`}
                 >
                   {tradeType === "BUY" ? "Place Buy Order" : "Place Sell Order"}
                 </button>
 
                 {/* Status message banners */}
                 {message && (
-                  <div className={`p-3 rounded-xl text-center border text-xs font-bold ${
-                    message.toLowerCase().includes("successfully") || message.toLowerCase().includes("bought") || message.toLowerCase().includes("sold")
+                  <div className={`p-3 rounded-xl text-center border text-xs font-bold ${message.toLowerCase().includes("successfully") || message.toLowerCase().includes("bought") || message.toLowerCase().includes("sold")
                       ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400 shadow-sm"
                       : "bg-rose-500/10 border-rose-500/20 text-rose-400 shadow-sm"
-                  }`}>
+                    }`}>
                     {message}
                   </div>
                 )}
@@ -637,7 +632,7 @@ export default function Trade() {
 
               {/* Order Book Grid */}
               <div className="flex flex-col gap-1 text-[11px] font-mono select-none">
-                
+
                 {/* Header labels */}
                 <div className="grid grid-cols-3 text-white/30 font-bold pb-2 border-b border-white/5">
                   <span>Price (USD)</span>
@@ -679,7 +674,7 @@ export default function Trade() {
             </div>
 
           </div>
-          
+
         </div>
       </div>
     </div>

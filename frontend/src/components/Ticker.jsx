@@ -67,16 +67,16 @@ import { motion } from "framer-motion";
 
 export default function Ticker({ prices, setPrices }) {
   // Establish connection to WebSocket on mount
-  useEffect(() => {
-    // const socket = new WebSocket("ws://3.108.215.35:5102");
-    const wsUrl = import.meta.env.VITE_WS_URL || "ws://3.108.215.35:5102";
-    const socket = new WebSocket(wsUrl);
+  // useEffect(() => {
+  //   // const socket = new WebSocket("ws://3.108.215.35:5102");
+  //   const wsUrl = import.meta.env.VITE_WS_URL || "ws://3.108.215.35:5102";
+  //   const socket = new WebSocket(wsUrl);
 
-    socket.onmessage = (event) => {
-      setPrices(JSON.parse(event.data));
-    };
-    return () => socket.close();
-  }, [setPrices]);
+  //   socket.onmessage = (event) => {
+  //     setPrices(JSON.parse(event.data));
+  //   };
+  //   return () => socket.close();
+  // }, [setPrices]);
 
   // Consistent 24h market price changes matching Watchlist
   const percentageData = {
@@ -108,17 +108,17 @@ export default function Ticker({ prices, setPrices }) {
   const repeatedEntries = [...entries, ...entries, ...entries, ...entries];
 
   return (
-    <div 
+    <div
       className="overflow-hidden w-full relative select-none"
       style={{ fontFamily: "'DM Sans', 'Segoe UI', sans-serif" }}
     >
       <motion.div
         className="flex gap-6 whitespace-nowrap w-max"
         animate={{ x: ["0%", "-50%"] }} // Loops seamlessly at 50% translation
-        transition={{ 
-          duration: 35, 
-          repeat: Infinity, 
-          ease: "linear" 
+        transition={{
+          duration: 35,
+          repeat: Infinity,
+          ease: "linear"
         }}
       >
         {repeatedEntries.map(([coin, price], i) => {
@@ -126,7 +126,7 @@ export default function Ticker({ prices, setPrices }) {
           const isPositive = percentage >= 0;
 
           return (
-            <div 
+            <div
               key={`${coin}-${i}`}
               className="flex items-center gap-3 bg-white/[0.01] hover:bg-white/[0.04] border border-white/5 px-4 py-2 rounded-xl transition-colors duration-300 shrink-0 shadow-sm cursor-default"
             >
@@ -134,12 +134,12 @@ export default function Ticker({ prices, setPrices }) {
               <span className="text-xs font-black text-white/40 tracking-wider">
                 {coin}
               </span>
-              
+
               {/* Live price details */}
               <span className="text-sm font-bold text-white font-mono tracking-tight">
                 ${price.toFixed(2)}
               </span>
-              
+
               {/* 24h percentage badge */}
               <span className={`text-[10px] font-black ${isPositive ? "text-emerald-400" : "text-rose-400"}`}>
                 {isPositive ? "▲" : "▼"} {Math.abs(percentage).toFixed(2)}%
