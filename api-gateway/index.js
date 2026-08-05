@@ -1,20 +1,11 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
 const app = express();
-// REMOVE express.json()
-// AUTH SERVICE ROUTES 
-// app.use(
-//   "/auth",
-//   createProxyMiddleware({
-//     target: "http://localhost:5101/auth",
-//     changeOrigin: true,
-//     pathRewrite: {
-//       "^/auth": "", // Remove /auth prefix when forwarding to auth service
-//     }
-//   })
-// );
+app.use(cors());
+
 app.use(
   "/auth",
   createProxyMiddleware({
@@ -26,17 +17,6 @@ app.use(
   })
 );
 
-// TRADING SERVICE ROUTES
-//   app.use(
-//   "/trade",
-//   createProxyMiddleware({
-//     target: "http://localhost:5102/trade",
-//     changeOrigin: true,
-//     pathRewrite: {
-//       "^/trade": "", // Remove /trade prefix when forwarding to trading service
-//     },
-//   })
-// );
 app.use(
   "/trade",
   createProxyMiddleware({
