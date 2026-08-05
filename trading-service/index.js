@@ -23,8 +23,11 @@ app.get("/", (req, res) => {
 
 
 
+const PORT = process.env.PORT || 5102;
+
 // Start HTTP server
-const server = app.listen(5102, () => console.log("Trading running on 5102"));
+const server = app.listen(PORT, "0.0.0.0", () => console.log(`Trading running on ${PORT}`));
+
 
 // Create WebSocket server
 const wss = new WebSocket.Server({ server });

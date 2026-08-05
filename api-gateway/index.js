@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
@@ -51,6 +52,8 @@ app.get("/", (req, res) => {
   res.send("API Gateway Running");
 });
 
-app.listen(5100, "0.0.0.0", () => {
-  console.log("Gateway running on 5100");
+const PORT = process.env.PORT || 5100;
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Gateway running on ${PORT}`);
 });
