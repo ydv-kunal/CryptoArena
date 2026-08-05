@@ -6,8 +6,8 @@ export default function Login() {
   const [message, setMessage] = useState("");
 
 const handleLogin = async () => {
-  // const res = await fetch("http://localhost:5100/auth/login", {
-  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5100";
+  // const res = await fetch("http://3.108.215.35:5100/auth/login", {
+  const apiUrl = import.meta.env.VITE_API_URL || "http://3.108.215.35:5100";
   const res = await fetch(`${apiUrl}/auth/login`, {
     method: "POST",
     headers: {

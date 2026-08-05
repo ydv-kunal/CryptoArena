@@ -6,7 +6,7 @@
 // export default function Ticker({ prices, setPrices }) {
 //   // Establish connection to WebSocket on mount
 //   useEffect(() => {
-//     const socket = new WebSocket("ws://localhost:5102");
+//     const socket = new WebSocket("ws://3.108.215.35:5102");
 // 
 //     socket.onmessage = (event) => {
 //       setPrices(JSON.parse(event.data));
@@ -68,8 +68,8 @@ import { motion } from "framer-motion";
 export default function Ticker({ prices, setPrices }) {
   // Establish connection to WebSocket on mount
   useEffect(() => {
-    // const socket = new WebSocket("ws://localhost:5102");
-    const wsUrl = import.meta.env.VITE_WS_URL || "ws://localhost:5102";
+    // const socket = new WebSocket("ws://3.108.215.35:5102");
+    const wsUrl = import.meta.env.VITE_WS_URL || "ws://3.108.215.35:5102";
     const socket = new WebSocket(wsUrl);
 
     socket.onmessage = (event) => {

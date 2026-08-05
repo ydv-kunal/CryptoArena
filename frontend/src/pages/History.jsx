@@ -21,8 +21,8 @@ export default function History() {
     const [transactions, setTransactions] = useState([]);
 
     useEffect(() => {
-        // fetch("http://localhost:5100/trade/transactions", {
-        const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5100";
+        // fetch("http://3.108.215.35:5100/trade/transactions", {
+        const apiUrl = import.meta.env.VITE_API_URL || "http://3.108.215.35:5100";
         fetch(`${apiUrl}/trade/transactions`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,

@@ -45,7 +45,7 @@ import { getPortfolio } from "../services/api";
 //     };
 // 
 //     useEffect(() => {
-//         const socket = new WebSocket("ws://localhost:5102");
+//         const socket = new WebSocket("ws://3.108.215.35:5102");
 // 
 //         socket.onmessage = (event) => {
 //             setPrices(JSON.parse(event.data));
@@ -58,7 +58,7 @@ import { getPortfolio } from "../services/api";
 //     useEffect(() => {
 //         loadPortfolio();
 // 
-//         const socket = new WebSocket("ws://localhost:5102");
+//         const socket = new WebSocket("ws://3.108.215.35:5102");
 // 
 //         socket.onmessage = (event) => {
 //             const prices = JSON.parse(event.data);
@@ -136,8 +136,8 @@ export default function Trade() {
 
   // Live price feeds socket
   useEffect(() => {
-    // const socket = new WebSocket("ws://localhost:5102");
-    const wsUrl = import.meta.env.VITE_WS_URL || "ws://localhost:5102";
+    // const socket = new WebSocket("ws://3.108.215.35:5102");
+    const wsUrl = import.meta.env.VITE_WS_URL || "ws://3.108.215.35:5102";
     const socket = new WebSocket(wsUrl);
     socket.onmessage = (event) => {
       const livePrices = JSON.parse(event.data);

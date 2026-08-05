@@ -1,12 +1,12 @@
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5100";
+const API_URL = import.meta.env.VITE_API_URL || "http://3.108.215.35:5100"; // Fallback if env var not set
 
 const getToken = () => {
-  return localStorage.getItem("token"); // or wherever you store it
+  return localStorage.getItem("token"); // or wherever you store it 
 };
 
 // BUY API CALL
 export const buyCrypto = async (data) => {
-  // const res = await fetch("http://localhost:5100/trade/buy", {
+  // const res = await fetch("http://3.108.215.35:5100/trade/buy", {
   const res = await fetch(`${API_URL}/trade/buy`, {
     method: "POST",
     headers: {
@@ -21,7 +21,7 @@ export const buyCrypto = async (data) => {
 
 // SELL API CALL
 export const sellCrypto = async (data) => {
-  // const res = await fetch("http://localhost:5100/trade/sell", {
+  // const res = await fetch("http://3.108.215.35:5100/trade/sell", {
   const res = await fetch(`${API_URL}/trade/sell`, {
     method: "POST",
     headers: {
@@ -37,7 +37,7 @@ export const sellCrypto = async (data) => {
 
 // GET PORTFOLIO API CALL
 export const getPortfolio = async () => {
-  // const res = await fetch("http://localhost:5100/trade/portfolio", {
+  // const res = await fetch("http://3.108.215.35:5100/trade/portfolio", {
   const res = await fetch(`${API_URL}/trade/portfolio`, {
     headers: {
       Authorization: `Bearer ${getToken()}`,
