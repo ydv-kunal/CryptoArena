@@ -135,25 +135,25 @@ export default function Trade() {
   };
 
   // Live price feeds socket
-  // useEffect(() => {
-  //   // const socket = new WebSocket("ws://3.108.215.35:5102");
-  //   const wsUrl = import.meta.env.VITE_WS_URL || "ws://3.108.215.35:5102";
-  //   const socket = new WebSocket(wsUrl);
-  //   socket.onmessage = (event) => {
-  //     const livePrices = JSON.parse(event.data);
-  //     setPrices(livePrices);
+  useEffect(() => {
+    // const socket = new WebSocket("ws://3.108.215.35:5102");
+    const wsUrl = import.meta.env.VITE_WS_URL || "ws://3.108.215.35:5102";
+    const socket = new WebSocket(wsUrl);
+    socket.onmessage = (event) => {
+      const livePrices = JSON.parse(event.data);
+      setPrices(livePrices);
 
-  //     // Keep portfolio updated with current prices
-  //     setPortfolio((prev) =>
-  //       prev.map((asset) => {
-  //         const currentPrice = livePrices[asset.symbol] || asset.avgPrice;
-  //         const profit = (currentPrice - asset.avgPrice) * asset.quantity;
-  //         return { ...asset, currentPrice, profit };
-  //       })
-  //     );
-  //   };
-  //   return () => socket.close();
-  // }, []);
+      // Keep portfolio updated with current prices
+      setPortfolio((prev) =>
+        prev.map((asset) => {
+          const currentPrice = livePrices[asset.symbol] || asset.avgPrice;
+          const profit = (currentPrice - asset.avgPrice) * asset.quantity;
+          return { ...asset, currentPrice, profit };
+        })
+      );
+    };
+    return () => socket.close();
+  }, []);
 
   // Load portfolio stats on mount & selectedCoin changes
   useEffect(() => {
@@ -479,8 +479,8 @@ export default function Trade() {
                     localStorage.setItem("selectedCoin", coin);
                   }}
                   className={`px-5 py-2.5 rounded-xl text-sm font-semibold tracking-tight transition-all duration-300 border ${selectedCoin === coin
-                      ? "bg-gradient-to-r from-indigo-500 to-purple-600 border-indigo-500 text-white shadow-[0_0_15px_rgba(99,102,241,0.25)]"
-                      : "bg-white/[0.02] border-white/5 text-gray-400 hover:bg-white/5 hover:text-white"
+                    ? "bg-gradient-to-r from-indigo-500 to-purple-600 border-indigo-500 text-white shadow-[0_0_15px_rgba(99,102,241,0.25)]"
+                    : "bg-white/[0.02] border-white/5 text-gray-400 hover:bg-white/5 hover:text-white"
                     }`}
                 >
                   {coin}
@@ -525,8 +525,8 @@ export default function Trade() {
                 <button
                   onClick={() => setTradeType("BUY")}
                   className={`flex-1 py-4 text-center text-sm font-bold tracking-wider uppercase transition-all duration-300 ${tradeType === "BUY"
-                      ? "bg-emerald-500/10 text-emerald-400 border-b-2 border-emerald-500"
-                      : "text-gray-500 hover:text-white hover:bg-white/[0.01]"
+                    ? "bg-emerald-500/10 text-emerald-400 border-b-2 border-emerald-500"
+                    : "text-gray-500 hover:text-white hover:bg-white/[0.01]"
                     }`}
                 >
                   Buy {selectedCoin}
@@ -534,8 +534,8 @@ export default function Trade() {
                 <button
                   onClick={() => setTradeType("SELL")}
                   className={`flex-1 py-4 text-center text-sm font-bold tracking-wider uppercase transition-all duration-300 ${tradeType === "SELL"
-                      ? "bg-rose-500/10 text-rose-400 border-b-2 border-rose-500"
-                      : "text-gray-500 hover:text-white hover:bg-white/[0.01]"
+                    ? "bg-rose-500/10 text-rose-400 border-b-2 border-rose-500"
+                    : "text-gray-500 hover:text-white hover:bg-white/[0.01]"
                     }`}
                 >
                   Sell {selectedCoin}
@@ -601,8 +601,8 @@ export default function Trade() {
                 <button
                   onClick={tradeType === "BUY" ? handleBuy : handleSell}
                   className={`w-full py-3.5 rounded-xl font-bold transition-all duration-300 active:scale-[0.98] shadow-lg ${tradeType === "BUY"
-                      ? "bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white shadow-emerald-500/10"
-                      : "bg-gradient-to-r from-rose-500 to-red-600 hover:from-rose-400 hover:to-red-500 text-white shadow-rose-500/10"
+                    ? "bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white shadow-emerald-500/10"
+                    : "bg-gradient-to-r from-rose-500 to-red-600 hover:from-rose-400 hover:to-red-500 text-white shadow-rose-500/10"
                     }`}
                 >
                   {tradeType === "BUY" ? "Place Buy Order" : "Place Sell Order"}
@@ -611,8 +611,8 @@ export default function Trade() {
                 {/* Status message banners */}
                 {message && (
                   <div className={`p-3 rounded-xl text-center border text-xs font-bold ${message.toLowerCase().includes("successfully") || message.toLowerCase().includes("bought") || message.toLowerCase().includes("sold")
-                      ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400 shadow-sm"
-                      : "bg-rose-500/10 border-rose-500/20 text-rose-400 shadow-sm"
+                    ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400 shadow-sm"
+                    : "bg-rose-500/10 border-rose-500/20 text-rose-400 shadow-sm"
                     }`}>
                     {message}
                   </div>

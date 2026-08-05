@@ -476,19 +476,19 @@ export default function Landing() {
   // Lifted prices state for landing page illustration and ticker sync
   const [prices, setPrices] = useState({});
 
-  // useEffect(() => {
-  //   // const socket = new WebSocket("ws://3.108.215.35:5102");
-  //   const wsUrl = import.meta.env.VITE_WS_URL || "ws://3.108.215.35:5102";
-  //   const socket = new WebSocket(wsUrl);
-  //   socket.onmessage = (event) => {
-  //     try {
-  //       setPrices(JSON.parse(event.data));
-  //     } catch (err) {
-  //       console.error("Error parsing socket data in landing page main state:", err);
-  //     }
-  //   };
-  //   return () => socket.close();
-  // }, []);
+  useEffect(() => {
+    // const socket = new WebSocket("ws://3.108.215.35:5102");
+    const wsUrl = import.meta.env.VITE_WS_URL || "ws://3.108.215.35:5102";
+    const socket = new WebSocket(wsUrl);
+    socket.onmessage = (event) => {
+      try {
+        setPrices(JSON.parse(event.data));
+      } catch (err) {
+        console.error("Error parsing socket data in landing page main state:", err);
+      }
+    };
+    return () => socket.close();
+  }, []);
 
   return (
     <div style={{ background: "#0a0a0f", fontFamily: "'DM Sans','Segoe UI',sans-serif", color: "white", minHeight: "100vh" }}>

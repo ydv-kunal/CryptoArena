@@ -15,28 +15,28 @@ export default function Dashboard() {
     const token = localStorage.getItem("token");
     const [assestsCount, setAssestsCount] = useState(0);
 
-    // useEffect(() => {
-    //     loadPortfolio();
+    useEffect(() => {
+        loadPortfolio();
 
-    //     // const socket = new WebSocket("ws://3.108.215.35:5102");
-    //     const wsUrl = import.meta.env.VITE_WS_URL || "ws://3.108.215.35:5102";
-    //     const socket = new WebSocket(wsUrl);
+        // const socket = new WebSocket("ws://3.108.215.35:5102");
+        const wsUrl = import.meta.env.VITE_WS_URL || "ws://3.108.215.35:5102";
+        const socket = new WebSocket(wsUrl);
 
-    //     socket.onmessage = (event) => {
-    //         const prices = JSON.parse(event.data);
+        socket.onmessage = (event) => {
+            const prices = JSON.parse(event.data);
 
-    //         setPortfolio(prev =>
-    //             prev.map(asset => {
-    //                 const currentPrice = prices[asset.symbol] || asset.avgPrice;
-    //                 const profit =
-    //                     (currentPrice - asset.avgPrice) * asset.quantity;
+            setPortfolio(prev =>
+                prev.map(asset => {
+                    const currentPrice = prices[asset.symbol] || asset.avgPrice;
+                    const profit =
+                        (currentPrice - asset.avgPrice) * asset.quantity;
 
-    //                 return { ...asset, currentPrice, profit };
-    //             })
-    //         );
-    //     };
+                    return { ...asset, currentPrice, profit };
+                })
+            );
+        };
 
-    // }, []);
+    }, []);
 
     const loadPortfolio = async () => {
         const data = await getPortfolio();

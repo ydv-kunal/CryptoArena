@@ -6,27 +6,30 @@ export default function Login() {
   const [message, setMessage] = useState("");
 
 const handleLogin = async () => {
-  // const res = await fetch("http://3.108.215.35:5100/auth/login", {
-  const apiUrl = import.meta.env.VITE_API_URL || "http://3.108.215.35:5100";
-  const res = await fetch(`${apiUrl}/auth/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, password }),
-  });
+  try {
+    setMessage("");
+    const apiUrl = import.meta.env.VITE_API_URL || "http://3.108.215.35:5100";
+    const res = await fetch(`${apiUrl}/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
 
-  const data = await res.json();
+    const data = await res.json();
 
-  if (data.token) {
-    //console.log("Login successful, token:", data.token); // 🔥 DEBUGGING
-    localStorage.setItem("token", data.token); 
-    localStorage.setItem("username", data.username); // <-- STORE USERNAME
-    window.location.href = "/";
-  }else {
-      //alert("Login failed");
-      setMessage(data.message || "Login failed"); // <-- SHOW ERROR MESSAGE
+    if (res.ok && data.token) {
+      localStorage.setItem("token", data.token); 
+      localStorage.setItem("username", data.username); 
+      window.location.href = "/";
+    } else {
+      setMessage(data.message || "Login failed");
     }
+  } catch (err) {
+    console.error("Login Error:", err);
+    setMessage("Connection error. Unable to reach authentication server.");
+  }
 };
 
 return (
@@ -52,17 +55,25 @@ return (
 
         <button
           onClick={handleLogin}
-          className="w-full bg-green-500 p-3 rounded-xl"
+          className="w-full bg-green-500 hover:bg-green-400 text-black font-semibold p-3 rounded-xl transition-colors"
         >
           Login
         </button>
 
         {message && (
-          <p className="mt-4 text-green-400 text-sm">{message}</p>
+          <p className={`mt-4 text-sm font-semibold ${message.toLowerCase().includes("unable") || message.toLowerCase().includes("invalid") || message.toLowerCase().includes("failed") ? "text-rose-400" : "text-green-400"}`}>{message}</p>
         )}
 
-        <div className="mt-6 p-4 rounded-xl bg-indigo-950/40 border border-indigo-900/50 text-xs text-gray-400">
-          <p className="font-semibold text-white mb-1">⚡ Quick Demo Access:</p>
+        <div 
+          onClick={() => {
+            setEmail("jack01@gmail.com");
+            setPassword("123456");
+            setMessage("");
+          }}
+          className="mt-6 p-4 rounded-xl bg-indigo-950/40 border border-indigo-900/50 hover:border-indigo-500/50 cursor-pointer text-xs text-gray-400 transition-colors"
+          title="Click to fill demo credentials"
+        >
+          <p className="font-semibold text-white mb-1">⚡ Quick Demo Access (Click to fill):</p>
           <p>Email: <code className="text-indigo-300">jack01@gmail.com</code></p>
           <p>Password: <code className="text-indigo-300">123456</code></p>
         </div>
