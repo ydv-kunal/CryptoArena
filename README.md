@@ -46,18 +46,19 @@ To try out the platform instantly without registering a new account, use these d
 ---
 
 ## 🏗️ Technical Architecture
-The application runs on an isolated microservices network orchestrated by Docker Compose:
+The application runs on an isolated, decoupled microservices network:
 
 ```mermaid
 graph TD
-    Client[Web Browser Client] -->|HTTP / WebSocket| Gateway[API Gateway :5100]
-    Client -->|Direct Price Stream| Trading[Trading Service :5102]
-    Gateway -->|Internal Routing| Auth[Auth Service :5101]
-    Gateway -->|Internal Routing| Trading
-    Auth -->|Initialize Portfolios| Trading
-    Auth -->|Read/Write Users| DB[(MongoDB :27017)]
-    Trading -->|Read/Write Portfolios| DB
-    Trading -->|Fetch Live Prices| Gecko[CoinGecko public API]
+    Client[Web Browser Client] -->|HTTP / HTTPS| Gateway[API Gateway :5100]
+    Client -->|WebSocket WSS Feed| Market[Market Service :5103]
+    Gateway -->|/auth| Auth[Auth Service :5101]
+    Gateway -->|/trade| Trading[Trading Service :5102]
+    Gateway -->|/market| Market
+    Auth -->|User Accounts| Atlas[(MongoDB Atlas Cloud)]
+    Trading -->|Portfolios & Trades| Atlas
+    Trading -->|Fetch Internal Prices| Market
+    Market -->|Live Market Polling| Gecko[CoinGecko Public API]
 ```
 
 ---
@@ -65,78 +66,87 @@ graph TD
 ## 💻 Tech Stack
 
 ### Frontend
-* **Core**: React 19, Vite, Javascript
-* **Styling**: Tailwind CSS 4.0, Vanilla CSS
+* **Core**: React, Vite, JavaScript
+* **Styling**: Tailwind CSS dark mode system & glassmorphism
 * **Animations**: Framer Motion
 * **Analytics**: Recharts
 * **Charting**: TradingView Financial Widgets
+* **Deployment**: Vercel (Global CDN with Git CI/CD)
 
-### Backend Services
+### Backend Microservices
 * **Runtime**: Node.js, Express
-* **Protocols**: REST API, WebSockets (via `ws` library)
+* **Protocols**: REST API, WebSockets (`ws` broadcaster engine)
 * **API Routing**: HTTP Proxy Middleware (API Gateway)
+* **Services**:
+  * **API Gateway (`:5100`)**: Single entry point & route proxy
+  * **Auth Service (`:5101`)**: Signup, login, bcrypt password hashing & JWT tokens
+  * **Trading Service (`:5102`)**: Buy/sell order executions & portfolio calculations
+  * **Market Service (`:5103`)**: CoinGecko live price fetcher & WebSocket stream broadcaster
+* **Deployment**: Render Cloud Platform (Auto-deploy on Git push with SSL/HTTPS)
 
-### Database & Devops
-* **Database**: MongoDB (Mongoose ODM)
-* **Containerization**: Docker, Docker Compose (volume mapping for persistence)
+### Database & DevOps
+* **Database**: MongoDB Atlas Cloud (Mongoose ODM)
+* **Containerization**: Docker, Docker Compose
 
 ---
 
 ## ⚙️ Quick Start Setup
 
-### Option A: Running with Docker (Recommended)
-You must have Docker Desktop installed and running.
+### Option A: Running with Docker Compose (Recommended)
+Make sure Docker Desktop is installed and running on your system.
 
-1. **Build and start the services**:
+1. **Build and start all microservices**:
    ```bash
    docker compose up --build -d
    ```
-2. **Verify containers are running**:
+2. **Verify running containers**:
    ```bash
    docker compose ps
    ```
 3. **Access the application**:
-   Open **`http://localhost:5173`** in your browser to begin trading.
+   Open **`http://localhost:5100`** (or `http://localhost:5173` for frontend dev server).
 
-4. **Shutdown the services**:
-   * Stop containers (keeps DB data intact): `docker compose down`
-   * Stop containers and wipe database state: `docker compose down -v`
+4. **Shutdown services**:
+   * Stop containers: `docker compose down`
 
 ---
 
-### Option B: Running Locally (Without Docker)
+### Option B: Running Locally (Service by Service)
 
-#### 1. Setup Database
-Ensure you have MongoDB running locally, or configure a MongoDB Atlas cloud URI inside the service environment files.
+#### 1. Setup Environment
+Copy `.env.example` to `.env` in each service folder and configure your MongoDB Atlas URI & JWT secret.
 
-#### 2. Start Auth Service
+#### 2. Start Auth Service (:5101)
 ```bash
 cd auth-service
 npm install
 npm start
 ```
-*Runs on port 5101.*
 
-#### 3. Start Trading Service
+#### 3. Start Trading Service (:5102)
 ```bash
 cd trading-service
 npm install
 npm start
 ```
-*Runs on port 5102.*
 
-#### 4. Start API Gateway
+#### 4. Start Market Service (:5103)
+```bash
+cd market-service
+npm install
+npm start
+```
+
+#### 5. Start API Gateway (:5100)
 ```bash
 cd api-gateway
 npm install
 npm start
 ```
-*Runs on port 5100.*
 
-#### 5. Start Frontend
+#### 6. Start Frontend (:5173)
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-*Runs on port 5173.*
