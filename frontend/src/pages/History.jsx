@@ -22,7 +22,7 @@ export default function History() {
 
     useEffect(() => {
         // fetch("http://3.108.215.35:5100/trade/transactions", {
-        const apiUrl = import.meta.env.VITE_API_URL || "http://3.108.215.35:5100";
+        const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5100";
         fetch(`${apiUrl}/trade/transactions`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -34,173 +34,7 @@ export default function History() {
             });
     }, []);
 
-    // ==========================================
-    // ORIGINAL LAYOUT RENDER (COMMENTED OUT)
-    // ==========================================
-    //     return (
-    //         <div className="flex min-h-screen bg-black text-white">
-    //             <Sidebar />
-    // 
-    //             <div className="ml-60 flex-1 p-8">
-    //                 <h1 className="text-5xl font-bold text-blue-500 mb-2">
-    //                     Transaction History
-    //                 </h1>
-    // 
-    //                 <p className="text-gray-400 mb-8">
-    //                     All your buy and sell activities
-    //                 </p>
-    // 
-    //                 <div className="bg-white/5 backdrop-blur-xl rounded-3xl overflow-hidden border border-white/10">
-    //                     <table className="w-full">
-    //                         <thead className="bg-white/10">
-    //                             <tr>
-    //                                 <th className="p-4">Date</th>
-    //                                 <th>Type</th>
-    //                                 <th>Coin</th>
-    //                                 <th>Qty</th>
-    //                                 <th>Price</th>
-    //                                 <th>Total</th>
-    //                             </tr>
-    //                         </thead>
-    // 
-    //                         <tbody>
-    //                             {transactions.map((tx) => (
-    //                                 <tr
-    //                                     key={tx._id}
-    //                                     className="text-center border-b border-white/10"
-    //                                 >
-    //                                     <td className="p-4">
-    //                                         {new Date(tx.createdAt).toLocaleString()}
-    //                                     </td>
-    // 
-    //                                     <td
-    //                                         className={
-    //                                             tx.type === "BUY"
-    //                                                 ? "text-green-400 font-semibold"
-    //                                                 : "text-red-400 font-semibold"
-    //                                         }
-    //                                     >
-    //                                         {tx.type}
-    //                                     </td>
-    // 
-    //                                     <td>{tx.symbol}</td>
-    // 
-    //                                     <td>{tx.quantity}</td>
-    // 
-    //                                     <td>${tx.price.toFixed(2)}</td>
-    // 
-    //                                     <td>${tx.total.toFixed(2)}</td>
-    // 
-    //                                 </tr>
-    //                             ))}
-    //                         </tbody>
-    //                     </table>
-    //                 </div>
-    //             </div>
-    //         </div>
-    //     );
-    // }
 
-    //     // ─── NEW REVISED HISTORY RENDER (FIXED OVERFLOW & UNIFIED DESIGN) (COMMENTED OUT AS PER INSTRUCTIONS) ───
-    //     return (
-    //         <div 
-    //             className="relative min-h-screen text-white overflow-x-hidden"
-    //             style={{ 
-    //                 background: "#0a0a0f", 
-    //                 fontFamily: "'DM Sans','Segoe UI',sans-serif" 
-    //             }}
-    //         >
-    //             {/* Background glow orbs matching landing page */}
-    //             <div style={{ position: "fixed", inset: 0, pointerEvents: "none", overflow: "hidden", zIndex: 0 }}>
-    //                 <div style={{ position: "absolute", width: 600, height: 600, top: -100, left: -200, borderRadius: "50%", background: "radial-gradient(circle,#4f46e5,transparent 70%)", filter: "blur(80px)", opacity: 0.15 }} />
-    //                 <div style={{ position: "absolute", width: 500, height: 500, top: 200, right: -150, borderRadius: "50%", background: "radial-gradient(circle,#7c3aed,transparent 70%)", filter: "blur(80px)", opacity: 0.1 }} />
-    //                 <div style={{ position: "absolute", width: 400, height: 400, bottom: 100, left: "30%", borderRadius: "50%", background: "radial-gradient(circle,#2563eb,transparent 70%)", filter: "blur(80px)", opacity: 0.08 }} />
-    //             </div>
-    // 
-    //             {/* Sidebar */}
-    //             <Sidebar />
-    // 
-    //             {/* Main content area (removed flex-1 and parent flex layout to fix overflow, added ml-64 matching sidebar) */}
-    //             <div className="p-8 ml-64 z-10 animate-fadeIn flex flex-col gap-6 max-w-[1400px]">
-    //                 {/* Header Block */}
-    //                 <div className="flex flex-col gap-1 py-2">
-    //                     <h1 className="text-4xl font-black tracking-tight text-white">
-    //                         Transaction{" "}
-    //                         <span style={{ background: "linear-gradient(90deg,#818cf8,#c084fc)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-    //                             History
-    //                         </span>
-    //                     </h1>
-    //                     <p className="text-xs text-white/35 font-bold tracking-widest uppercase">
-    //                         All your virtual buy and sell activities
-    //                     </p>
-    //                 </div>
-    // 
-    //                 {/* Table wrapper card */}
-    //                 <div className="bg-white/[0.02] border border-white/5 p-6 rounded-3xl backdrop-blur-xl shadow-[0_15px_35px_rgba(0,0,0,0.4)] mt-2">
-    //                     <table className="w-full border-collapse">
-    //                         <thead>
-    //                             <tr className="border-b border-white/5 bg-white/[0.01]">
-    //                                 <th className="py-4 px-6 text-left text-xs font-black text-white/30 tracking-widest uppercase">Date</th>
-    //                                 <th className="py-4 px-6 text-center text-xs font-black text-white/30 tracking-widest uppercase">Type</th>
-    //                                 <th className="py-4 px-6 text-center text-xs font-black text-white/30 tracking-widest uppercase">Coin</th>
-    //                                 <th className="py-4 px-6 text-right text-xs font-black text-white/30 tracking-widest uppercase">Qty</th>
-    //                                 <th className="py-4 px-6 text-right text-xs font-black text-white/30 tracking-widest uppercase">Price</th>
-    //                                 <th className="py-4 px-6 text-right text-xs font-black text-white/30 tracking-widest uppercase">Total</th>
-    //                             </tr>
-    //                         </thead>
-    // 
-    //                         <tbody className="divide-y divide-white/5">
-    //                             {transactions && transactions.length > 0 ? (
-    //                                 transactions.map((tx) => (
-    //                                     <tr
-    //                                         key={tx._id}
-    //                                         className="hover:bg-white/[0.02] transition-colors duration-200"
-    //                                     >
-    //                                         <td className="py-4 px-6 text-left text-sm text-gray-300 font-mono">
-    //                                             {new Date(tx.createdAt).toLocaleString()}
-    //                                         </td>
-    // 
-    //                                         <td className="py-4 px-6 text-center text-sm font-bold">
-    //                                             <span className={`inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-bold ${
-    //                                                 tx.type === "BUY"
-    //                                                     ? "bg-emerald-500/10 border border-emerald-500/10 text-emerald-400"
-    //                                                     : "bg-rose-500/10 border border-rose-500/10 text-rose-400"
-    //                                             }`}>
-    //                                                 {tx.type}
-    //                                             </span>
-    //                                         </td>
-    // 
-    //                                         <td className="py-4 px-6 text-center text-sm font-bold text-white">
-    //                                             {tx.symbol}
-    //                                         </td>
-    // 
-    //                                         <td className="py-4 px-6 text-right text-sm text-gray-300 font-mono font-bold">
-    //                                             {tx.quantity}
-    //                                         </td>
-    // 
-    //                                         <td className="py-4 px-6 text-right text-sm text-gray-300 font-mono">
-    //                                             ${tx.price.toFixed(2)}
-    //                                         </td>
-    // 
-    //                                         <td className="py-4 px-6 text-right text-sm text-white font-mono font-bold">
-    //                                             ${tx.total.toFixed(2)}
-    //                                         </td>
-    //                                     </tr>
-    //                                 ))
-    //                             ) : (
-    //                                 <tr>
-    //                                     <td colSpan="6" className="py-8 text-center text-sm text-gray-500 font-medium">
-    //                                         No transactions recorded. Make some trades to see them here!
-    //                                     </td>
-    //                                 </tr>
-    //                             )}
-    //                         </tbody>
-    //                     </table>
-    //                 </div>
-    //             </div>
-    //         </div>
-    //     );
-    // }
 
     // ─── UPGRADED PREMIUM GLASSMORPHIC HISTORY RENDER ───────────────────
     // Added metrics header cards, Framer Motion animations, custom token badges, and glowing status pills
@@ -371,8 +205,8 @@ export default function History() {
                                             {/* Transaction Type Pill */}
                                             <td className="py-4 px-6 text-center text-sm font-bold">
                                                 <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black tracking-wider uppercase ${tx.type === "BUY"
-                                                        ? "bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.1)]"
-                                                        : "bg-rose-500/10 border border-rose-500/20 text-rose-400 shadow-[0_0_12px_rgba(244,63,94,0.1)]"
+                                                    ? "bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.1)]"
+                                                    : "bg-rose-500/10 border border-rose-500/20 text-rose-400 shadow-[0_0_12px_rgba(244,63,94,0.1)]"
                                                     }`}>
                                                     <span className={`w-1.5 h-1.5 rounded-full ${tx.type === "BUY" ? "bg-emerald-400" : "bg-rose-400"}`} />
                                                     {tx.type}

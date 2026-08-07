@@ -1,155 +1,3 @@
-// import { motion } from "framer-motion";
-// import { useNavigate } from "react-router-dom";
-// import { useState } from "react";
-
-// export default function Landing() {
-//     const navigate = useNavigate();
-//     const [showMenu, setShowMenu] = useState(false);
-
-//     const token = localStorage.getItem("token");
-//     const username = localStorage.getItem("username");
-
-//     return (
-//         <div className="bg-black text-white min-h-screen">
-
-//             {/* Navbar */}
-//             <div className="flex justify-between items-center p-6 relative">
-
-//                 {/* LEFT */}
-//                 <h1 className="text-xl font-bold">CryptoArena</h1>
-
-//                 {/* CENTER */}
-//                 {token && (
-//                     <div className="absolute left-1/2 transform -translate-x-1/2">
-//                         <button
-//                             onClick={() => navigate("/dashboard")}
-//                             className="bg-green-500 px-6 py-3 rounded-xl"
-//                         >
-//                             Dashboard
-//                         </button>
-//                     </div>
-//                 )}
-
-//                 {/* RIGHT */}
-//                 {!token ? (
-//                     <div className="flex space-x-4">
-//                         <button
-//                             onClick={() => navigate("/login")}
-//                             className="bg-green-500 px-6 py-3 rounded-xl text-lg"
-//                         >
-//                             Login
-//                         </button>
-
-//                         <button
-//                             onClick={() => navigate("/signup")}
-//                             className="bg-green-500 px-6 py-3 rounded-xl text-lg"
-//                         >
-//                             Signup
-//                         </button>
-//                     </div>
-//                 ) : (
-//                     <div className="relative">
-//                         <button
-//                             onClick={() => setShowMenu(!showMenu)}
-//                             className="flex items-center gap-4 bg-gray-900/80 border border-gray-700 hover:border-green-500 px-5 py-3 rounded-2xl transition-all duration-300 shadow-lg"
-//                         >
-//                             {/* Profile Circle */}
-//                             <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-black font-bold">
-//                                 {username?.charAt(0).toUpperCase()}
-//                             </div>
-
-//                             {/* Username */}
-//                             <span className="text-lg font-medium text-white">
-//                                 Hey, {username}
-//                             </span>
-
-//                             {/* Arrow */}
-//                             <span
-//                                 className={`text-sm transition-transform duration-300 ${showMenu ? "rotate-180" : ""
-//                                     }`}
-//                             >
-//                                 ▼
-//                             </span>
-//                         </button>
-
-//                         {showMenu && (
-//                             <div className="absolute right-0 mt-3 w-48 bg-gray-900 border border-gray-700 rounded-2xl shadow-2xl overflow-hidden">
-
-//                                 <button
-//                                     onClick={() => navigate("/dashboard")}
-//                                     className="w-full text-left px-5 py-4 hover:bg-gray-800 transition"
-//                                 >
-//                                     Dashboard
-//                                 </button>
-
-//                                 <button
-//                                     onClick={() => {
-//                                         localStorage.removeItem("token");
-//                                         localStorage.removeItem("username");
-//                                         window.location.reload();
-//                                     }}
-//                                     className="w-full text-left px-5 py-4 text-red-400 hover:bg-red-500 hover:text-white transition"
-//                                 >
-//                                     Logout
-//                                 </button>
-//                             </div>
-//                         )}
-//                     </div>
-//                 )}
-//             </div>
-
-
-//             {/* Hero Section */}
-//             <div className="text-center mt-20">
-//                 <motion.h1
-//                     initial={{ opacity: 0, y: -50 }}
-//                     animate={{ opacity: 1, y: 0, transition: { duration: 1.5 } }}
-//                     className="text-5xl font-bold"
-//                 >
-//                     Trade Crypto Without Risk 🚀
-//                 </motion.h1>
-
-//                 <p className="mt-4 text-gray-400">
-//                     Real-time trading simulator with live prices
-//                 </p>
-
-//                 <button
-//                     //onClick={() => navigate("/dashboard")}
-//                     onClick={() => navigate("/dashboard")}
-//                     className="mt-6 bg-green-500 px-6 py-3 rounded-xl text-lg"
-//                 >
-//                     Start Trading
-//                 </button>
-//             </div>
-
-//             {/* Features */}
-//             <div className="grid grid-cols-3 gap-6 p-10 mt-20">
-//                 <Feature title="Live Prices" />
-//                 <Feature title="Instant Trades" />
-//                 <Feature title="Real-time Profit" />
-//             </div>
-
-//         </div>
-//     );
-// }
-
-// function Feature({ title }) {
-//     return (
-//         <div className="bg-gray-900 p-6 rounded-xl text-center">
-//             <h2 className="text-xl font-semibold">{title}</h2>
-//         </div>
-//     );
-// }
-
-
-
-
-
-
-
-
-
-
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -311,7 +159,7 @@ const STEPS = [
 //   const [prices, setPrices] = useState({});
 // 
 //   useEffect(() => {
-//     const socket = new WebSocket("ws://3.108.215.35:5102");
+//     const socket = new WebSocket("ws://3.108.215.35:5103");
 //     socket.onmessage = (event) => {
 //       try {
 //         setPrices(JSON.parse(event.data));
@@ -477,9 +325,22 @@ export default function Landing() {
   const [prices, setPrices] = useState({});
 
   useEffect(() => {
-    // const socket = new WebSocket("ws://3.108.215.35:5102");
-    const wsUrl = import.meta.env.VITE_WS_URL || "ws://3.108.215.35:5102";
+    // 1. Instant REST fetch for initial prices on page load
+    const fetchPricesREST = async () => {
+      try {
+        const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5100";
+        const res = await fetch(`${apiUrl}/market/prices`);
+        if (res.ok) setPrices(await res.json());
+      } catch (err) {
+        console.log("Landing initial REST price fetch error:", err.message);
+      }
+    };
+    fetchPricesREST();
+
+    // 2. Real-time WebSocket price stream
+    const wsUrl = import.meta.env.VITE_WS_URL || "ws://localhost:5103";
     const socket = new WebSocket(wsUrl);
+
     socket.onmessage = (event) => {
       try {
         setPrices(JSON.parse(event.data));
@@ -757,7 +618,7 @@ export default function Landing() {
           <h2 style={{ fontSize: "clamp(2rem,4vw,3rem)", fontWeight: 900, marginBottom: 16 }}>Everything You Need to Succeed</h2>
           <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 18 }}>Professional-grade tools and features to help you become a better trader</p>
         </motion.div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 20 }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {FEATURES.map(({ Icon, gradient, title, desc }, i) => (
             <motion.div
               key={title}

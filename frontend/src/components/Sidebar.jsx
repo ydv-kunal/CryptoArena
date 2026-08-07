@@ -1,61 +1,3 @@
-// ==========================================
-// ORIGINAL SIDEBAR IMPLEMENTATION (COMMENTED OUT)
-// ==========================================
-// import Watchlist from "./Watchlist";
-// import { useNavigate } from "react-router-dom";
-// import { Link } from "react-router-dom";
-// 
-// export default function Sidebar({ prices }) {
-//   const navigate = useNavigate();
-//   return (
-//     <div className="fixed left-0 top-0 w-60 h-screen bg-gray-900 p-6 flex flex-col justify-between">
-// 
-//       {/* TOP SECTION */}
-//       <div>
-//         <Link to="/">
-//           <h1 className="text-3xl font-bold mb-5">
-//             CryptoArena
-//           </h1>
-//         </Link>
-// 
-//         <div className="space-y-4">
-//           <Link to="/dashboard" className="block mb-4">
-//             Dashboard
-//           </Link>
-// 
-//           <Link to="/trade" className="block mb-4">
-//             Trade
-//           </Link>
-// 
-//           <Link to="/history" className="block mb-4">
-//             Trading History
-//           </Link>
-// 
-//           <Watchlist
-//             prices={prices}
-//             onSelect={(coin) => {
-//               localStorage.setItem("selectedCoin", coin);
-//               navigate("/trade");
-//             }}
-//           />
-//         </div>
-//       </div>
-// 
-//       {/* BOTTOM SECTION */}
-//       <button
-//         onClick={() => {
-//           localStorage.removeItem("token");
-//           localStorage.removeItem("username"); // <-- REMOVE USERNAME ON LOGOUT
-//           window.location.href = "/";
-//         }}
-//         className="w-full bg-red-500 hover:bg-red-600 py-2 rounded-lg text-white font-semibold"
-//       >
-//         Logout
-//       </button>
-//     </div>
-//   );
-// }
-
 // ─── NEW PREMIUM SIDEBAR IMPLEMENTATION ────────────────────────────
 import Watchlist from "./Watchlist";
 import { useNavigate, Link, useLocation } from "react-router-dom";
@@ -144,8 +86,8 @@ export default function Sidebar({ prices }) {
                 key={item.path}
                 to={item.path}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 font-medium text-sm border ${isActive
-                    ? "bg-gradient-to-r from-indigo-500/20 to-purple-500/10 border-indigo-500/30 text-white shadow-[0_0_15px_rgba(99,102,241,0.15)]"
-                    : "border-transparent text-gray-400 hover:bg-white/5 hover:text-white"
+                  ? "bg-gradient-to-r from-indigo-500/20 to-purple-500/10 border-indigo-500/30 text-white shadow-[0_0_15px_rgba(99,102,241,0.15)]"
+                  : "border-transparent text-gray-400 hover:bg-white/5 hover:text-white"
                   }`}
               >
                 <ItemIcon />

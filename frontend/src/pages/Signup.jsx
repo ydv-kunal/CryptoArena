@@ -10,7 +10,7 @@ export default function Signup() {
 
     try {
       // const res = await fetch("http://3.108.215.35:5100/auth/signup", {
-      const apiUrl = import.meta.env.VITE_API_URL || "http://3.108.215.35:5100";
+      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5100";
       const res = await fetch(`${apiUrl}/auth/signup`, {
         method: "POST",
         headers: {
@@ -25,26 +25,22 @@ export default function Signup() {
 
       const data = await res.json();
 
-      //alert(data.message);
-      setMessage(data.message); // <-- SHOW SUCCESS MESSAGE
-
-      // After successful signup, redirect to login page after a short delay
-      setTimeout(() => {
-        window.location.href = "/login";
-      }, 5000); // 5-second delay to show message before redirecting
-
-      // redirect to login page
-      //window.location.href = "/login";
-
+      if (res.ok) {
+        setMessage(data.message || "Signup successful! Redirecting to login...");
+        setTimeout(() => {
+          window.location.href = "/login";
+        }, 1500);
+      } else {
+        setMessage(data.message || "Signup failed");
+      }
     } catch (err) {
-      console.log(err);
-      //alert("Signup failed");
-      setMessage("Signup failed"); // <-- SHOW ERROR MESSAGE
+      console.log("Signup error:", err);
+      setMessage("Signup failed. Unable to reach server.");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black">
+    <div className="min-h-screen flex items-center justify-center bg-black text-white">
       <form
         onSubmit={handleSignup}
         className="bg-gray-900 p-8 rounded-xl w-[400px]"
@@ -53,41 +49,50 @@ export default function Signup() {
           Signup
         </h1>
 
-        <input                                // <-- ADDED USERNAME INPUT FIELD
+        <input
           type="text"
-          placeholder="Enter First Name"
+          placeholder="Enter Username"
           className="w-full p-3 mb-4 rounded bg-black text-white border border-gray-700"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          required
         />
-
 
         <input
           type="email"
-          placeholder="Enter email"
+          placeholder="Enter Email"
           className="w-full p-3 mb-4 rounded bg-black text-white border border-gray-700"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          required
         />
 
         <input
           type="password"
-          placeholder="Enter password"
+          placeholder="Enter Password"
           className="w-full p-3 mb-6 rounded bg-black text-white border border-gray-700"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          required
         />
 
         <button
           type="submit"
-          className="w-full bg-green-500 hover:bg-green-600 text-white p-3 rounded"
+          className="w-full bg-green-500 hover:bg-green-600 font-semibold text-black p-3 rounded-xl transition-colors"
         >
           Signup
         </button>
 
         {message && (
-          <p className="mt-4 text-green-400 text-sm">{message}</p>
+          <p className={`mt-4 text-sm font-semibold ${message.toLowerCase().includes("failed") || message.toLowerCase().includes("unable") ? "text-rose-400" : "text-green-400"}`}>{message}</p>
         )}
+
+        <p className="mt-6 text-center text-xs text-gray-400">
+          Already have an account?{" "}
+          <a href="/login" className="text-green-400 hover:underline font-semibold">
+            Log in here
+          </a>
+        </p>
       </form>
     </div>
   );
