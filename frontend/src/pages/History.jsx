@@ -22,7 +22,7 @@ export default function History() {
 
     useEffect(() => {
         // fetch("http://3.108.215.35:5100/trade/transactions", {
-        const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5100";
+        const apiUrl = (import.meta.env.VITE_API_URL || "http://localhost:5100").replace(/\/$/, "");
         fetch(`${apiUrl}/trade/transactions`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,

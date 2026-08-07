@@ -8,7 +8,7 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       setMessage("");
-      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5100";
+      const apiUrl = (import.meta.env.VITE_API_URL || "http://localhost:5100").replace(/\/$/, "");
       const res = await fetch(`${apiUrl}/auth/login`, {
         method: "POST",
         headers: {

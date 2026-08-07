@@ -328,7 +328,7 @@ export default function Landing() {
     // 1. Instant REST fetch for initial prices on page load
     const fetchPricesREST = async () => {
       try {
-        const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5100";
+        const apiUrl = (import.meta.env.VITE_API_URL || "http://localhost:5100").replace(/\/$/, "");
         const res = await fetch(`${apiUrl}/market/prices`);
         if (res.ok) setPrices(await res.json());
       } catch (err) {

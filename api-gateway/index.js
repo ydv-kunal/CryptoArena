@@ -6,37 +6,32 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 const app = express();
 app.use(cors());
 
+const authTarget = (process.env.AUTH_SERVICE_URL || "http://localhost:5101").replace(/\/$/, "");
+const tradingTarget = (process.env.TRADING_SERVICE_URL || "http://localhost:5102").replace(/\/$/, "");
+const marketTarget = (process.env.MARKET_SERVICE_URL || "http://localhost:5103").replace(/\/$/, "");
+
 app.use(
   "/auth",
   createProxyMiddleware({
-    target: `${process.env.AUTH_SERVICE_URL || "http://localhost:5101"}/auth`,
+    target: authTarget,
     changeOrigin: true,
-    pathRewrite: {
-      "^/auth": "", // Remove /auth prefix when forwarding to auth service
-    }
   })
 );
 
 app.use(
   "/trade",
   createProxyMiddleware({
-    target: `${process.env.TRADING_SERVICE_URL || "http://localhost:5102"}/trade`,
+    target: tradingTarget,
     changeOrigin: true,
-    pathRewrite: {
-      "^/trade": "", // Remove /trade prefix when forwarding to trading service
-    },
   })
 );
 
 app.use(
   "/market",
   createProxyMiddleware({
-    target: `${process.env.MARKET_SERVICE_URL || "http://localhost:5103"}/market`,
+    target: marketTarget,
     changeOrigin: true,
     ws: true,
-    pathRewrite: {
-      "^/market": "", // Remove /market prefix when forwarding to market service
-    },
   })
 );
 

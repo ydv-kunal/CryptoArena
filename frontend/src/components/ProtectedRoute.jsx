@@ -15,8 +15,7 @@ export default function ProtectedRoute({ children }) {
       }
 
       try {
-        // const res = await fetch("http://3.108.215.35:5100/auth/verify", {
-        const apiUrl = import.meta.env.VITE_API_URL || "http://3.108.215.35:5100";
+        const apiUrl = (import.meta.env.VITE_API_URL || "http://localhost:5100").replace(/\/$/, "");
         const res = await fetch(`${apiUrl}/auth/verify`, {
           headers: {
             Authorization: `Bearer ${token}`,
