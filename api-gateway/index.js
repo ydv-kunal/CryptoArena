@@ -6,9 +6,9 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 const app = express();
 app.use(cors());
 
-const authTarget = (process.env.AUTH_SERVICE_URL || "http://localhost:5101").replace(/\/$/, "");
-const tradingTarget = (process.env.TRADING_SERVICE_URL || "http://localhost:5102").replace(/\/$/, "");
-const marketTarget = (process.env.MARKET_SERVICE_URL || "http://localhost:5103").replace(/\/$/, "");
+const authTarget = (process.env.AUTH_SERVICE_URL || "http://localhost:5101").replace(/\/auth\/?$/, "").replace(/\/$/, "");
+const tradingTarget = (process.env.TRADING_SERVICE_URL || "http://localhost:5102").replace(/\/trade\/?$/, "").replace(/\/$/, "");
+const marketTarget = (process.env.MARKET_SERVICE_URL || "http://localhost:5103").replace(/\/market\/?$/, "").replace(/\/$/, "");
 
 app.use(
   "/auth",
