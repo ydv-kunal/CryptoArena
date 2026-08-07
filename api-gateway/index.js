@@ -13,7 +13,7 @@ const marketTarget = (process.env.MARKET_SERVICE_URL || "http://localhost:5103")
 app.use(
   "/auth",
   createProxyMiddleware({
-    target: authTarget,
+    target: `${authTarget}/auth`,
     changeOrigin: true,
   })
 );
@@ -21,7 +21,7 @@ app.use(
 app.use(
   "/trade",
   createProxyMiddleware({
-    target: tradingTarget,
+    target: `${tradingTarget}/trade`,
     changeOrigin: true,
   })
 );
@@ -29,7 +29,7 @@ app.use(
 app.use(
   "/market",
   createProxyMiddleware({
-    target: marketTarget,
+    target: `${marketTarget}/market`,
     changeOrigin: true,
     ws: true,
   })
