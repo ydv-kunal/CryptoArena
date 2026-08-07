@@ -6,6 +6,8 @@ services:
       dockerfile: Dockerfile
     container_name: paper-trading-auth
     restart: always
+    ports:
+      - "5101:5101"
     env_file:
       - ./auth-service/.env
     environment:
@@ -22,8 +24,22 @@ services:
       - "5102:5102"
     env_file:
       - ./trading-service/.env
+    environment:
+      - MARKET_SERVICE_URL=http://market-service:5103
 
-  # Service 3: API Gateway container
+  # Service 3: Market service container (Live Price Feed & WebSocket)
+  market-service:
+    build:
+      context: ./market-service
+      dockerfile: Dockerfile
+    container_name: paper-trading-market
+    restart: always
+    ports:
+      - "5103:5103"
+    env_file:
+      - ./market-service/.env
+
+  # Service 4: API Gateway container
   api-gateway:
     build:
       context: ./api-gateway
@@ -37,18 +53,20 @@ services:
     environment:
       - AUTH_SERVICE_URL=http://auth-service:5101
       - TRADING_SERVICE_URL=http://trading-service:5102
+      - MARKET_SERVICE_URL=http://market-service:5103
     depends_on:
       - auth-service
       - trading-service
+      - market-service
 
-  # Service 4: Frontend container (Commented out because Frontend is deployed on Vercel)
+  # Service 5: Frontend container (Commented out because Frontend is deployed on Vercel)
   # frontend:
   #   build:
   #     context: ./frontend
   #     dockerfile: Dockerfile
   #     args:
   #       - VITE_API_URL=${VITE_API_URL:-http://localhost:5100}
-  #       - VITE_WS_URL=${VITE_WS_URL:-ws://localhost:5102}
+  #       - VITE_WS_URL=${VITE_WS_URL:-ws://localhost:5103}
   #   container_name: paper-trading-frontend
   #   restart: always
   #   ports:

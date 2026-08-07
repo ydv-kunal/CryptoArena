@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || "http://3.108.215.35:5100"; // Fallback if env var not set
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5100"; // Fallback if env var not set
 
 const getToken = () => {
   return localStorage.getItem("token"); // or wherever you store it 

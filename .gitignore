@@ -1,18 +1,28 @@
-node_modules/
+# Ignore secret environment files
 .env
 *.env
-.env.*
+.env.local
+.env.development
+.env.production
+
+# Un-ignore template example environment files for GitHub deployment
 !.env.example
-dist/
-build/
-.vscode/
-coverage/
+!*.env.example
+!**/.env.example
 
-
+# Node dependencies
+node_modules/
 frontend/node_modules/
 auth-service/node_modules/
 trading-service/node_modules/
 market-service/node_modules/
 api-gateway/node_modules/
 
+# Build outputs
+dist/
+build/
+
+# IDE & Logs
+.vscode/
+coverage/
 *.log

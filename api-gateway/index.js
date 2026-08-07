@@ -28,6 +28,18 @@ app.use(
   })
 );
 
+app.use(
+  "/market",
+  createProxyMiddleware({
+    target: `${process.env.MARKET_SERVICE_URL || "http://localhost:5103"}/market`,
+    changeOrigin: true,
+    ws: true,
+    pathRewrite: {
+      "^/market": "", // Remove /market prefix when forwarding to market service
+    },
+  })
+);
+
 app.get("/", (req, res) => {
   res.send("API Gateway Running");
 });
