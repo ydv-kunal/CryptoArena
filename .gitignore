@@ -22,7 +22,10 @@ api-gateway/node_modules/
 dist/
 build/
 
-# IDE & Logs
+# IDE & Logs & OS files
 .vscode/
 coverage/
 *.log
+.DS_Store
+*.DS_Store
+**/.DS_Store
