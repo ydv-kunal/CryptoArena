@@ -1,4 +1,4 @@
-// ─── NEW PREMIUM SIDEBAR IMPLEMENTATION ────────────────────────────
+import { useEffect, useState } from "react";
 import Watchlist from "./Watchlist";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 
@@ -37,6 +37,38 @@ export default function Sidebar({ prices }) {
   const navigate = useNavigate();
   const location = useLocation();
   const username = localStorage.getItem("username") || "Trader";
+  const [internalPrices, setInternalPrices] = useState({});
+
+  useEffect(() => {
+    if (prices && Object.keys(prices).length > 0) return;
+
+    // 1. Instant REST fetch for initial prices on page load
+    const fetchPricesREST = async () => {
+      try {
+        const apiUrl = (import.meta.env.VITE_API_URL || "http://localhost:5100").replace(/\/$/, "");
+        const res = await fetch(`${apiUrl}/market/prices`);
+        if (res.ok) setInternalPrices(await res.json());
+      } catch (err) {
+        console.log("Sidebar REST price fetch error:", err.message);
+      }
+    };
+    fetchPricesREST();
+
+    // 2. Real-time WebSocket price stream
+    const wsUrl = import.meta.env.VITE_WS_URL || "ws://localhost:5103";
+    const socket = new WebSocket(wsUrl);
+
+    socket.onmessage = (event) => {
+      try {
+        setInternalPrices(JSON.parse(event.data));
+      } catch (err) {
+        console.error("Sidebar socket error:", err);
+      }
+    };
+    return () => socket.close();
+  }, [prices]);
+
+  const activePrices = (prices && Object.keys(prices).length > 0) ? prices : internalPrices;
 
   // Navigation config with path, label, and icon
   const menuItems = [
@@ -99,7 +131,7 @@ export default function Sidebar({ prices }) {
 
         {/* Watchlist Section */}
         <Watchlist
-          prices={prices}
+          prices={activePrices}
           onSelect={(coin) => {
             localStorage.setItem("selectedCoin", coin);
             navigate("/trade");
