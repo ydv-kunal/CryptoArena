@@ -69,10 +69,12 @@ wss.on("connection", (ws) => {
 async function getLivePrices() {
   // 1. Primary: Binance Public API (Ultra high rate limits, 0 IP ban on cloud servers)
   try {
-    const res = await axios.get(
-      'https://api.binance.com/api/v3/ticker/price?symbols=["BTCUSDT","ETHUSDT","DOGEUSDT","SOLUSDT","BNBUSDT","LTCUSDT","XRPUSDT"]',
-      { timeout: 4000 }
-    );
+    const res = await axios.get("https://api.binance.com/api/v3/ticker/price", {
+      params: {
+        symbols: '["BTCUSDT","ETHUSDT","DOGEUSDT","SOLUSDT","BNBUSDT","LTCUSDT","XRPUSDT"]'
+      },
+      timeout: 4000
+    });
 
     const priceMap = {};
     if (Array.isArray(res.data)) {
@@ -91,7 +93,7 @@ async function getLivePrices() {
       return { prices: priceMap, source: "Binance API" };
     }
   } catch (err) {
-    // Silent fail over to CoinGecko
+    console.log("Binance API fetch warning:", err.message);
   }
 
   // 2. Secondary: CoinGecko API
