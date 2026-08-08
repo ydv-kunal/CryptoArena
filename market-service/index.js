@@ -119,13 +119,8 @@ async function getLivePrices() {
       source: "CoinGecko API"
     };
   } catch (err) {
-    // 3. Fallback: Micro-simulation engine (simulates real-time market noise ±0.05%)
-    const simulated = {};
-    for (const [coin, price] of Object.entries(latestPrices)) {
-      const change = (Math.random() - 0.49) * 0.001 * price;
-      simulated[coin] = parseFloat((price + change).toFixed(coin === "DOGE" ? 4 : 2));
-    }
-    return { prices: simulated, source: "Internal Simulation Engine" };
+    // 3. Fallback: Return exact cached prices without micro-noise
+    return { prices: { ...latestPrices }, source: "Cached Prices (Fallback)" };
   }
 }
 
