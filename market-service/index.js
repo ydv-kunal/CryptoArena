@@ -67,36 +67,37 @@ wss.on("connection", (ws) => {
 });
 
 async function getLivePrices() {
-  // 1. Primary: Binance Public API (Ultra high rate limits, 0 IP ban on cloud servers)
+  // 1. Primary: CoinCap API (Ultra reliable, 0 US datacenter geo-blocking)
   try {
-    const res = await axios.get("https://api.binance.com/api/v3/ticker/price", {
-      params: {
-        symbols: '["BTCUSDT","ETHUSDT","DOGEUSDT","SOLUSDT","BNBUSDT","LTCUSDT","XRPUSDT"]'
-      },
-      headers: {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-      },
-      timeout: 4000
-    });
+    const res = await axios.get(
+      "https://api.coincap.io/v2/assets?ids=bitcoin,ethereum,dogecoin,solana,binance-coin,litecoin,xrp",
+      {
+        headers: {
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        },
+        timeout: 4000
+      }
+    );
 
     const priceMap = {};
-    if (Array.isArray(res.data)) {
-      res.data.forEach((item) => {
-        if (item.symbol === "BTCUSDT") priceMap.BTC = parseFloat(parseFloat(item.price).toFixed(2));
-        if (item.symbol === "ETHUSDT") priceMap.ETH = parseFloat(parseFloat(item.price).toFixed(2));
-        if (item.symbol === "DOGEUSDT") priceMap.DOGE = parseFloat(parseFloat(item.price).toFixed(4));
-        if (item.symbol === "SOLUSDT") priceMap.SOL = parseFloat(parseFloat(item.price).toFixed(2));
-        if (item.symbol === "BNBUSDT") priceMap.BNB = parseFloat(parseFloat(item.price).toFixed(2));
-        if (item.symbol === "LTCUSDT") priceMap.LTC = parseFloat(parseFloat(item.price).toFixed(2));
-        if (item.symbol === "XRPUSDT") priceMap.XRP = parseFloat(parseFloat(item.price).toFixed(3));
+    if (Array.isArray(res.data?.data)) {
+      res.data.data.forEach((item) => {
+        const p = parseFloat(item.priceUsd);
+        if (item.id === "bitcoin") priceMap.BTC = parseFloat(p.toFixed(2));
+        if (item.id === "ethereum") priceMap.ETH = parseFloat(p.toFixed(2));
+        if (item.id === "dogecoin") priceMap.DOGE = parseFloat(p.toFixed(4));
+        if (item.id === "solana") priceMap.SOL = parseFloat(p.toFixed(2));
+        if (item.id === "binance-coin") priceMap.BNB = parseFloat(p.toFixed(2));
+        if (item.id === "litecoin") priceMap.LTC = parseFloat(p.toFixed(2));
+        if (item.id === "xrp") priceMap.XRP = parseFloat(p.toFixed(3));
       });
     }
 
     if (Object.keys(priceMap).length > 0) {
-      return { prices: priceMap, source: "Binance API" };
+      return { prices: priceMap, source: "CoinCap API" };
     }
   } catch (err) {
-    console.log("Binance API fetch warning:", err.message);
+    console.log("CoinCap API fetch warning:", err.message);
   }
 
   // 2. Secondary: CoinGecko API
