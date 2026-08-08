@@ -88,7 +88,7 @@ async function getLivePrices() {
     }
 
     if (Object.keys(priceMap).length > 0) {
-      return priceMap;
+      return { prices: priceMap, source: "Binance API" };
     }
   } catch (err) {
     // Silent fail over to CoinGecko
@@ -102,13 +102,16 @@ async function getLivePrices() {
     );
 
     return {
-      BTC: res.data.bitcoin?.usd || latestPrices.BTC,
-      ETH: res.data.ethereum?.usd || latestPrices.ETH,
-      DOGE: res.data.dogecoin?.usd || latestPrices.DOGE,
-      SOL: res.data.solana?.usd || latestPrices.SOL,
-      BNB: res.data.binancecoin?.usd || latestPrices.BNB,
-      LTC: res.data.litecoin?.usd || latestPrices.LTC,
-      XRP: res.data.ripple?.usd || latestPrices.XRP,
+      prices: {
+        BTC: res.data.bitcoin?.usd || latestPrices.BTC,
+        ETH: res.data.ethereum?.usd || latestPrices.ETH,
+        DOGE: res.data.dogecoin?.usd || latestPrices.DOGE,
+        SOL: res.data.solana?.usd || latestPrices.SOL,
+        BNB: res.data.binancecoin?.usd || latestPrices.BNB,
+        LTC: res.data.litecoin?.usd || latestPrices.LTC,
+        XRP: res.data.ripple?.usd || latestPrices.XRP,
+      },
+      source: "CoinGecko API"
     };
   } catch (err) {
     // 3. Fallback: Micro-simulation engine (simulates real-time market noise ±0.05%)
@@ -117,17 +120,17 @@ async function getLivePrices() {
       const change = (Math.random() - 0.49) * 0.001 * price;
       simulated[coin] = parseFloat((price + change).toFixed(coin === "DOGE" ? 4 : 2));
     }
-    return simulated;
+    return { prices: simulated, source: "Internal Simulation Engine" };
   }
 }
 
 // Periodically update live prices & broadcast to WebSocket clients
 setInterval(async () => {
-  const newPrices = await getLivePrices();
+  const result = await getLivePrices();
 
-  if (newPrices) {
-    Object.assign(latestPrices, newPrices);
-    console.log("Updated Market Prices:", latestPrices);
+  if (result && result.prices) {
+    Object.assign(latestPrices, result.prices);
+    console.log(`[${result.source}] Updated Market Prices:`, latestPrices);
   }
 
   // Broadcast to all connected WebSocket clients
