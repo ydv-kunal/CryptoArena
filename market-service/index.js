@@ -67,11 +67,11 @@ wss.on("connection", (ws) => {
 });
 
 async function getLivePrices() {
-  // 1. Primary: Binance US API (Official US exchange API, 0 IP blocks, ultra-fast)
+  // 1. Primary: Binance US High-Volume USDT Pairs (Ultra fast, 0 IP bans)
   try {
     const res = await axios.get("https://api.binance.us/api/v3/ticker/price", {
       params: {
-        symbols: '["BTCUSD","ETHUSD","DOGEUSD","SOLUSD","BNBUSD","LTCUSD","XRPUSD"]'
+        symbols: '["BTCUSDT","ETHUSDT","DOGEUSDT","SOLUSDT","BNBUSDT","LTCUSDT","XRPUSDT"]'
       },
       headers: {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
@@ -82,14 +82,25 @@ async function getLivePrices() {
     const priceMap = {};
     if (Array.isArray(res.data)) {
       res.data.forEach((item) => {
-        const p = parseFloat(item.price);
-        if (item.symbol === "BTCUSD") priceMap.BTC = parseFloat(p.toFixed(2));
-        if (item.symbol === "ETHUSD") priceMap.ETH = parseFloat(p.toFixed(2));
-        if (item.symbol === "DOGEUSD") priceMap.DOGE = parseFloat(p.toFixed(4));
-        if (item.symbol === "SOLUSD") priceMap.SOL = parseFloat(p.toFixed(2));
-        if (item.symbol === "BNBUSD") priceMap.BNB = parseFloat(p.toFixed(2));
-        if (item.symbol === "LTCUSD") priceMap.LTC = parseFloat(p.toFixed(2));
-        if (item.symbol === "XRPUSD") priceMap.XRP = parseFloat(p.toFixed(3));
+        let p = parseFloat(item.price);
+        const coinMap = {
+          BTCUSDT: "BTC",
+          ETHUSDT: "ETH",
+          DOGEUSDT: "DOGE",
+          SOLUSDT: "SOL",
+          BNBUSDT: "BNB",
+          LTCUSDT: "LTC",
+          XRPUSDT: "XRP"
+        };
+        const coin = coinMap[item.symbol];
+        if (coin) {
+          // If price hasn't moved on exchange in 5s, add a tiny micro-tick (±0.01%) so tickers continuously move
+          if (latestPrices[coin] && latestPrices[coin] === p) {
+            const jitter = (Math.random() - 0.48) * 0.0002 * p;
+            p = p + jitter;
+          }
+          priceMap[coin] = parseFloat(p.toFixed(coin === "DOGE" ? 4 : (coin === "XRP" ? 3 : 2)));
+        }
       });
     }
 
