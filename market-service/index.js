@@ -67,37 +67,63 @@ wss.on("connection", (ws) => {
 });
 
 async function getLivePrices() {
-  // 1. Primary: CoinCap API (Ultra reliable, 0 US datacenter geo-blocking)
+  // 1. Primary: Binance US API (Official US exchange API, 0 IP blocks, ultra-fast)
   try {
-    const res = await axios.get(
-      "https://api.coincap.io/v2/assets?ids=bitcoin,ethereum,dogecoin,solana,binance-coin,litecoin,xrp",
-      {
-        headers: {
-          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-        },
-        timeout: 4000
-      }
-    );
+    const res = await axios.get("https://api.binance.us/api/v3/ticker/price", {
+      params: {
+        symbols: '["BTCUSD","ETHUSD","DOGEUSD","SOLUSD","BNBUSD","LTCUSD","XRPUSD"]'
+      },
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+      },
+      timeout: 4000
+    });
 
     const priceMap = {};
-    if (Array.isArray(res.data?.data)) {
-      res.data.data.forEach((item) => {
-        const p = parseFloat(item.priceUsd);
-        if (item.id === "bitcoin") priceMap.BTC = parseFloat(p.toFixed(2));
-        if (item.id === "ethereum") priceMap.ETH = parseFloat(p.toFixed(2));
-        if (item.id === "dogecoin") priceMap.DOGE = parseFloat(p.toFixed(4));
-        if (item.id === "solana") priceMap.SOL = parseFloat(p.toFixed(2));
-        if (item.id === "binance-coin") priceMap.BNB = parseFloat(p.toFixed(2));
-        if (item.id === "litecoin") priceMap.LTC = parseFloat(p.toFixed(2));
-        if (item.id === "xrp") priceMap.XRP = parseFloat(p.toFixed(3));
+    if (Array.isArray(res.data)) {
+      res.data.forEach((item) => {
+        const p = parseFloat(item.price);
+        if (item.symbol === "BTCUSD") priceMap.BTC = parseFloat(p.toFixed(2));
+        if (item.symbol === "ETHUSD") priceMap.ETH = parseFloat(p.toFixed(2));
+        if (item.symbol === "DOGEUSD") priceMap.DOGE = parseFloat(p.toFixed(4));
+        if (item.symbol === "SOLUSD") priceMap.SOL = parseFloat(p.toFixed(2));
+        if (item.symbol === "BNBUSD") priceMap.BNB = parseFloat(p.toFixed(2));
+        if (item.symbol === "LTCUSD") priceMap.LTC = parseFloat(p.toFixed(2));
+        if (item.symbol === "XRPUSD") priceMap.XRP = parseFloat(p.toFixed(3));
       });
     }
 
     if (Object.keys(priceMap).length > 0) {
-      return { prices: priceMap, source: "CoinCap API" };
+      return { prices: priceMap, source: "Binance US API" };
     }
   } catch (err) {
-    console.log("CoinCap API fetch warning:", err.message);
+    console.log("Binance US API fetch warning:", err.message);
+  }
+
+  // 2. Secondary: Coinbase Public API
+  try {
+    const coins = ["BTC", "ETH", "DOGE", "SOL", "BNB", "LTC", "XRP"];
+    const priceMap = {};
+    await Promise.all(
+      coins.map(async (c) => {
+        const res = await axios.get(`https://api.coinbase.com/v2/prices/${c}-USD/spot`, {
+          headers: {
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
+          },
+          timeout: 4000
+        });
+        const p = parseFloat(res.data?.data?.amount);
+        if (!isNaN(p)) {
+          priceMap[c] = parseFloat(p.toFixed(c === "DOGE" ? 4 : (c === "XRP" ? 3 : 2)));
+        }
+      })
+    );
+
+    if (Object.keys(priceMap).length > 0) {
+      return { prices: priceMap, source: "Coinbase API" };
+    }
+  } catch (err) {
+    console.log("Coinbase API fetch warning:", err.message);
   }
 
   // 2. Secondary: CoinGecko API
